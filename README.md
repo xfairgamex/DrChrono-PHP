@@ -105,6 +105,12 @@ $client->appointmentProfiles    // Appointment types
 $client->appointmentTemplates   // Recurring blocks
 $client->patientPayments        // Payment records
 $client->patientMessages        // Patient communications
+$client->inventoryCategories    // Inventory organization
+$client->patientVaccineRecords  // Immunization tracking
+$client->taskTemplates          // Reusable task templates
+$client->taskCategories         // Task organization
+$client->taskStatuses           // Custom task statuses
+$client->taskNotes              // Task documentation
 ```
 
 ### Verbose Mode
