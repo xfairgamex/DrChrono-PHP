@@ -98,6 +98,49 @@ abstract class AbstractResource
         return iterator_to_array($this->iterateAll($filters), false);
     }
 
+    /**
+     * Enable verbose mode for the next request
+     * Returns additional fields but reduces page size to 50
+     *
+     * @param array $filters Existing filters
+     * @return array Filters with verbose mode enabled
+     */
+    protected function withVerbose(array $filters): array
+    {
+        $filters['verbose'] = 'true';
+        return $filters;
+    }
+
+    /**
+     * List resources with verbose mode enabled
+     *
+     * Verbose mode includes additional fields but may reduce performance:
+     * - Page size limited to 50 (vs 250 default)
+     * - Additional database queries per record
+     *
+     * See API docs for which fields require verbose mode for each endpoint
+     *
+     * @param array $filters Optional filters
+     * @return PagedCollection
+     */
+    public function listVerbose(array $filters = []): PagedCollection
+    {
+        return $this->list($this->withVerbose($filters));
+    }
+
+    /**
+     * Get a single resource with verbose mode
+     *
+     * Verbose mode includes additional related data that requires extra queries
+     *
+     * @param int|string $id Resource ID
+     * @return array Resource data with verbose fields
+     */
+    public function getVerbose(int|string $id): array
+    {
+        return $this->httpClient->get("{$this->resourcePath}/{$id}", ['verbose' => 'true']);
+    }
+
     protected function buildPath(string $path, array $params = []): string
     {
         if (empty($params)) {

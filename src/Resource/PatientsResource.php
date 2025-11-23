@@ -66,4 +66,38 @@ class PatientsResource extends AbstractResource
     {
         return $this->update($patientId, [$fieldName => $value]);
     }
+
+    /**
+     * Get patient with full insurance details
+     *
+     * Requires verbose mode to include:
+     * - primary_insurance (full details)
+     * - secondary_insurance (full details)
+     * - tertiary_insurance (full details)
+     * - auto_accident_insurance
+     * - workers_comp_insurance
+     * - custom_demographics
+     * - patient_flags
+     * - referring_doctor
+     *
+     * @param int $patientId Patient ID
+     * @return array Patient data with insurance details
+     */
+    public function getWithInsurance(int $patientId): array
+    {
+        return $this->getVerbose($patientId);
+    }
+
+    /**
+     * List patients with insurance details
+     *
+     * Note: Verbose mode reduces page size to 50 records
+     *
+     * @param array $filters Optional filters
+     * @return PagedCollection
+     */
+    public function listWithInsurance(array $filters = []): PagedCollection
+    {
+        return $this->listVerbose($filters);
+    }
 }
