@@ -5,6 +5,128 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2025-11-23
+
+### Added - Phase 3: Advanced Clinical & Preventive Care
+
+Complete implementation of Phase 3, adding 11 new resources for advanced clinical documentation and preventive care management.
+
+#### Clinical Documentation Extensions (5 Resources)
+- **ClinicalNoteTemplatesResource** - Manage note templates
+  - `list()`, `get()`, `createTemplate()`, `updateTemplate()`, `deleteTemplate()`
+  - `listByDoctor()` - Get templates for specific doctor
+  - `getDefaultTemplates()` - Get default templates for quick access
+  - `cloneTemplate()` - Clone existing templates for variations
+
+- **ClinicalNoteFieldTypesResource** - Define custom note fields
+  - `list()`, `get()`, `createFieldType()`, `updateFieldType()`, `deleteFieldType()`
+  - `listByDoctor()` - Get field types for specific doctor
+  - `getByDataType()` - Filter by data type (text, number, date, etc.)
+
+- **ClinicalNoteFieldValuesResource** - Store custom field values
+  - `list()`, `get()`, `createFieldValue()`, `updateFieldValue()`, `deleteFieldValue()`
+  - `listByClinicalNote()` - Get values for specific note
+  - `listByFieldType()` - Get values by field type
+  - `upsertValue()` - Update or create field value
+
+- **ProceduresResource** - Record medical procedures
+  - `list()`, `get()`, `createProcedure()`, `updateProcedure()`, `deleteProcedure()`
+  - `listByPatient()`, `listByDoctor()`, `listByAppointment()`
+  - `getByCode()` - Find procedures by CPT/HCPCS code
+  - `listByDateRange()` - Get procedures within date range
+
+- **AmendmentsResource** - Manage record amendments
+  - `list()`, `get()`, `createAmendment()`, `updateAmendment()`, `deleteAmendment()`
+  - `listByPatient()`, `listByDoctor()`
+  - `approve()` - Approve amendment with optional notes
+  - `deny()` - Deny amendment with reason
+  - `getPending()` - Get pending amendments
+  - `getHistoryForNote()` - Get amendment history for clinical note
+
+#### Preventive Care & Health Management (6 Resources)
+- **CarePlansResource** - Manage patient care plans
+  - `list()`, `get()`, `createCarePlan()`, `updateCarePlan()`, `deleteCarePlan()`
+  - `listByPatient()`, `listByDoctor()`
+  - `getActiveForPatient()` - Get active care plans
+  - `markCompleted()` - Mark plan as completed
+  - `cancel()` - Cancel plan with reason
+  - `addGoal()` - Add goal to care plan
+
+- **PatientRiskAssessmentsResource** - Risk evaluations
+  - `list()`, `get()`, `createAssessment()`, `updateAssessment()`, `deleteAssessment()`
+  - `listByPatient()`, `listByDoctor()`
+  - `getMostRecent()` - Get most recent assessment for patient
+  - `getHighRisk()` - Get high-risk assessments
+  - `listByDateRange()` - Get assessments within date range
+
+- **PatientPhysicalExamsResource** - Physical examination records
+  - `list()`, `get()`, `createExam()`, `updateExam()`, `deleteExam()`
+  - `listByPatient()`, `listByDoctor()`, `listByAppointment()`
+  - `getMostRecent()` - Get most recent exam for patient
+  - `listByDateRange()` - Get exams within date range
+
+- **PatientInterventionsResource** - Track clinical interventions
+  - `list()`, `get()`, `createIntervention()`, `updateIntervention()`, `deleteIntervention()`
+  - `listByPatient()`, `listByDoctor()`, `listByCarePlan()`
+  - `getActiveForPatient()` - Get active interventions
+  - `markCompleted()` - Mark intervention as completed
+  - `discontinue()` - Discontinue intervention with reason
+  - `getByType()` - Filter by intervention type
+
+- **PatientCommunicationsResource** - Patient communications
+  - `list()`, `get()`, `createCommunication()`, `updateCommunication()`, `deleteCommunication()`
+  - `listByPatient()`, `listByDoctor()`
+  - `getRequiringFollowUp()` - Get communications needing follow-up
+  - `getByType()` - Filter by communication type
+  - `getByMethod()` - Filter by method (phone, email, portal, in-person)
+  - `listByDateRange()` - Get communications within date range
+
+- **ImplantableDevicesResource** - Implanted device tracking
+  - `list()`, `get()`, `createDevice()`, `updateDevice()`, `deleteDevice()`
+  - `listByPatient()`, `listByDoctor()`
+  - `getActiveForPatient()` - Get currently implanted devices
+  - `markRemoved()` - Mark device as removed with date and reason
+  - `getByType()` - Filter by device type
+  - `getByManufacturer()` - Filter by manufacturer
+  - `findByUdi()` - Find device by unique device identifier
+
+#### New Models (4 Models)
+- **ClinicalNoteTemplate** - Template model with sections and default status
+- **Procedure** - Procedure model with code, description, and status
+- **CarePlan** - Care plan model with goals, interventions, and status helpers
+- **ImplantableDevice** - Device model with UDI, manufacturer, and status tracking
+
+#### Testing & Quality
+- **118 New Unit Tests** across 11 test files
+- **256 Total Assertions** ensuring comprehensive coverage
+- All tests follow established patterns from Phase 1 & 2
+- 100% passing test suite
+- Full PHPDoc coverage for all new classes and methods
+- PSR-12 compliant code
+
+#### DrChronoClient Updates
+- Added 11 new resource properties with IDE autocomplete support
+- Registered all Phase 3 resources in getResource() method
+- Updated @property-read annotations for all new resources
+
+#### Documentation Updates
+- README.md: Added 11 new resources to API reference table
+- CHANGELOG.md: Complete Phase 3 changelog with all features
+- PROGRESS.md: Detailed Phase 3 completion summary
+
+### API Coverage Progress
+- **Phase 3 Complete:** 11/11 resources (100%)
+- **Overall Coverage:** 54/69 endpoints (78%) - Up from 62%
+- **Clinical Documentation:** 100% coverage (11/11 endpoints)
+- **Preventive Care:** 100% coverage (6/6 endpoints)
+
+### Technical Improvements
+- Consistent error handling across all new resources
+- Comprehensive helper methods for common operations
+- Date range filtering support where applicable
+- Status-based filtering (active, completed, cancelled, etc.)
+- Proper type hints and return types throughout
+
 ## [1.0.0] - 2025-01-15
 
 ### Added

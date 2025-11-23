@@ -529,6 +529,17 @@ Runnable examples are provided in the `examples/` directory:
 | `patientPaymentLog` | Payment history/audit | `$client->patientPaymentLog->getPaymentHistory()` |
 | `consentForms` | Patient consent forms | `$client->consentForms->markAsSigned()` |
 | `customInsurancePlanNames` | Custom insurance naming | `$client->customInsurancePlanNames->setCustomName()` |
+| `clinicalNoteTemplates` | Note templates | `$client->clinicalNoteTemplates->createTemplate()` |
+| `clinicalNoteFieldTypes` | Custom note fields | `$client->clinicalNoteFieldTypes->createFieldType()` |
+| `clinicalNoteFieldValues` | Note field values | `$client->clinicalNoteFieldValues->upsertValue()` |
+| `procedures` | Medical procedures | `$client->procedures->createProcedure()` |
+| `amendments` | Record amendments | `$client->amendments->approve()` |
+| `carePlans` | Patient care plans | `$client->carePlans->createCarePlan()` |
+| `patientRiskAssessments` | Risk evaluations | `$client->patientRiskAssessments->createAssessment()` |
+| `patientPhysicalExams` | Physical exam records | `$client->patientPhysicalExams->createExam()` |
+| `patientInterventions` | Treatment interventions | `$client->patientInterventions->createIntervention()` |
+| `patientCommunications` | Patient communications | `$client->patientCommunications->createCommunication()` |
+| `implantableDevices` | Implanted devices | `$client->implantableDevices->createDevice()` |
 
 ## Contributing
 
