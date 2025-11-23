@@ -521,6 +521,8 @@ Runnable examples are provided in the `examples/` directory:
 | `customDemographics` | Custom patient fields | `$client->customDemographics->createField()` |
 | `patientFlagTypes` | Custom patient flags | `$client->patientFlagTypes->createFlagType()` |
 | `billing` | Billing/transactions | `$client->billing->listLineItems()` |
+| `billingProfiles` | Billing configurations | `$client->billingProfiles->getByDoctor()` |
+| `eligibilityChecks` | Insurance verification | `$client->eligibilityChecks->verifyPrimaryInsurance()` |
 
 ## Contributing
 
