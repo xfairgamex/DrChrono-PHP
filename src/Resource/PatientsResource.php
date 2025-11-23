@@ -100,4 +100,34 @@ class PatientsResource extends AbstractResource
     {
         return $this->listVerbose($filters);
     }
+
+    /**
+     * Get or create onpatient access token
+     *
+     * Generates an access token for the patient to access their information
+     * through onpatient portal. This is a special endpoint that either returns
+     * an existing token or creates a new one.
+     *
+     * @param int $patientId Patient ID
+     * @return array Access token information
+     */
+    public function getOnPatientAccess(int $patientId): array
+    {
+        return $this->httpClient->get("{$this->resourcePath}/{$patientId}/onpatient_access");
+    }
+
+    /**
+     * Create onpatient access token
+     *
+     * Creates a new access token for the patient to access their information
+     * through onpatient portal.
+     *
+     * @param int $patientId Patient ID
+     * @param array $data Optional token configuration
+     * @return array Created access token information
+     */
+    public function createOnPatientAccess(int $patientId, array $data = []): array
+    {
+        return $this->httpClient->post("{$this->resourcePath}/{$patientId}/onpatient_access", $data);
+    }
 }

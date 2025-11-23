@@ -111,6 +111,10 @@ $client->taskTemplates          // Reusable task templates
 $client->taskCategories         // Task organization
 $client->taskStatuses           // Custom task statuses
 $client->taskNotes              // Task documentation
+$client->doctors                // Provider directory
+$client->userGroups             // Permission groups
+$client->prescriptionMessages   // Pharmacy communications
+$client->commLogs               // Communication audit trail
 ```
 
 ### Verbose Mode
