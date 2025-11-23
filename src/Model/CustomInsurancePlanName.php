@@ -11,12 +11,20 @@ namespace DrChrono\Model;
  */
 class CustomInsurancePlanName extends AbstractModel
 {
+    protected ?int $id = null;
+    protected ?int $insurancePlan = null;
+    protected ?string $customName = null;
+    protected ?int $doctor = null;
+    protected ?string $notes = null;
+    protected ?string $createdAt = null;
+    protected ?string $updatedAt = null;
+
     /**
      * Get custom plan name ID
      */
     public function getId(): ?int
     {
-        return $this->data['id'] ?? null;
+        return $this->id;
     }
 
     /**
@@ -24,7 +32,7 @@ class CustomInsurancePlanName extends AbstractModel
      */
     public function getInsurancePlanId(): ?int
     {
-        return $this->data['insurance_plan'] ?? null;
+        return $this->insurancePlan;
     }
 
     /**
@@ -32,7 +40,7 @@ class CustomInsurancePlanName extends AbstractModel
      */
     public function setInsurancePlan(int $insurancePlanId): self
     {
-        $this->data['insurance_plan'] = $insurancePlanId;
+        $this->insurancePlan = $insurancePlanId;
         return $this;
     }
 
@@ -41,7 +49,7 @@ class CustomInsurancePlanName extends AbstractModel
      */
     public function getCustomName(): ?string
     {
-        return $this->data['custom_name'] ?? null;
+        return $this->customName;
     }
 
     /**
@@ -49,7 +57,7 @@ class CustomInsurancePlanName extends AbstractModel
      */
     public function setCustomName(string $name): self
     {
-        $this->data['custom_name'] = $name;
+        $this->customName = $name;
         return $this;
     }
 
@@ -58,7 +66,7 @@ class CustomInsurancePlanName extends AbstractModel
      */
     public function getDoctorId(): ?int
     {
-        return $this->data['doctor'] ?? null;
+        return $this->doctor;
     }
 
     /**
@@ -66,7 +74,7 @@ class CustomInsurancePlanName extends AbstractModel
      */
     public function setDoctor(int $doctorId): self
     {
-        $this->data['doctor'] = $doctorId;
+        $this->doctor = $doctorId;
         return $this;
     }
 
@@ -75,7 +83,7 @@ class CustomInsurancePlanName extends AbstractModel
      */
     public function getNotes(): ?string
     {
-        return $this->data['notes'] ?? null;
+        return $this->notes;
     }
 
     /**
@@ -83,7 +91,7 @@ class CustomInsurancePlanName extends AbstractModel
      */
     public function setNotes(string $notes): self
     {
-        $this->data['notes'] = $notes;
+        $this->notes = $notes;
         return $this;
     }
 
@@ -92,7 +100,7 @@ class CustomInsurancePlanName extends AbstractModel
      */
     public function getCreatedAt(): ?string
     {
-        return $this->data['created_at'] ?? null;
+        return $this->createdAt;
     }
 
     /**
@@ -100,6 +108,6 @@ class CustomInsurancePlanName extends AbstractModel
      */
     public function getUpdatedAt(): ?string
     {
-        return $this->data['updated_at'] ?? null;
+        return $this->updatedAt;
     }
 }

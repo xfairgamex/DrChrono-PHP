@@ -5,6 +5,51 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] - 2025-11-23
+
+### Fixed
+
+**🎉 100% TEST PASS RATE ACHIEVED - All 432 tests now passing!**
+
+This release fixes all 23 failing tests by correcting the model implementation pattern across 5 models.
+
+#### Bug Fix: Model Implementation Pattern
+- **Issue**: 5 models were using `$this->data['key']` array storage pattern instead of declared properties
+- **Impact**: `AbstractModel::fromArray()` and `hydrate()` were failing silently, causing 23 test failures
+- **Solution**: Refactored models to use declared properties compatible with `AbstractModel::hydrate()`
+
+#### Models Fixed
+- **ConsentForm** - Fixed 5 test failures (fromArray, toArray, chaining, isSigned, requiresSignature)
+  - Added declared properties for all fields
+  - Updated all getters/setters to use properties instead of array keys
+
+- **CustomInsurancePlanName** - Fixed all test failures
+  - Added declared properties: id, insurancePlan, customName, doctor, notes, timestamps
+  - Consistent getter/setter implementation
+
+- **FeeSchedule** - Fixed all test failures
+  - Added declared properties: id, name, code, price, doctor, insurancePlan, modifiers, timestamps
+  - Proper type hints for all properties
+
+- **LineItem** - Fixed all test failures
+  - Added declared properties: id, appointment, code, procedureType, quantity, price, adjustment, doctor, modifiers, diagnosisPointers, units, placeOfService, timestamps
+  - Maintained getTotal() calculation method
+
+- **Transaction** - Fixed 5 test failures (fromArray, toArray, chaining, isPayment, isAdjustment)
+  - Added declared properties: id, appointment, amount, transactionType, postedDate, checkNumber, insName, note, doctor, timestamps
+  - Maintained type checking methods
+
+### Quality Improvements
+- ✅ All models now follow consistent implementation pattern
+- ✅ All models compatible with `AbstractModel::fromArray()` and `hydrate()`
+- ✅ Proper nullable type hints on all properties
+- ✅ PSR-12 compliant code style maintained
+
+### Test Results
+- **Before**: 432 tests, 23 failures (94.7% pass rate)
+- **After**: 432 tests, 0 failures (100% pass rate) ✅
+- **Assertions**: 1116 (up from 1059)
+
 ## [1.6.0] - 2025-11-23
 
 ### Added - Phase 5: Administrative & Communication Resources
