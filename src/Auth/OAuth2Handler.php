@@ -157,8 +157,8 @@ class OAuth2Handler
         $this->httpClient->post(self::REVOKE_URI, $data);
 
         // Clear tokens from config
-        $this->config->setAccessToken('');
-        $this->config->setRefreshToken('');
+        $this->config->setAccessToken(null);
+        $this->config->setRefreshToken(null);
         $this->config->setTokenExpiresAt(null);
     }
 
@@ -188,7 +188,7 @@ class OAuth2Handler
         try {
             // Create a temporary HTTP client without auth headers for token requests
             $tempConfig = clone $this->config;
-            $tempConfig->setAccessToken('');
+            $tempConfig->setAccessToken(null);
             $tempClient = new HttpClient($tempConfig);
 
             return $tempClient->post(self::TOKEN_URI, $data);

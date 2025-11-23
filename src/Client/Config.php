@@ -83,7 +83,7 @@ class Config
         return $this->accessToken;
     }
 
-    public function setAccessToken(string $accessToken): self
+    public function setAccessToken(?string $accessToken): self
     {
         $this->accessToken = $accessToken;
         return $this;
@@ -94,7 +94,7 @@ class Config
         return $this->refreshToken;
     }
 
-    public function setRefreshToken(string $refreshToken): self
+    public function setRefreshToken(?string $refreshToken): self
     {
         $this->refreshToken = $refreshToken;
         return $this;

@@ -25,7 +25,7 @@ class TasksResource extends AbstractResource
      */
     public function listByAssignee(int $userId, array $filters = []): PagedCollection
     {
-        $filters['assignee' ] = $userId;
+        $filters['assignee'] = $userId;
         return $this->list($filters);
     }
 
