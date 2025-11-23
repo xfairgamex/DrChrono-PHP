@@ -42,4 +42,23 @@ class MedicationsResource extends AbstractResource
     {
         $this->delete($medicationId);
     }
+
+    /**
+     * Append note to pharmacy note field
+     *
+     * Appends text to the pharmacy note field of a medication.
+     * This is useful for adding additional instructions or notes
+     * without overwriting existing content.
+     *
+     * @param int $medicationId Medication ID
+     * @param string $note Note text to append
+     * @return array Updated medication
+     */
+    public function appendToPharmacyNote(int $medicationId, string $note): array
+    {
+        return $this->httpClient->patch(
+            "{$this->resourcePath}/{$medicationId}/append_to_pharmacy_note",
+            ['note' => $note]
+        );
+    }
 }

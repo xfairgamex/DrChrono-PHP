@@ -60,4 +60,19 @@ class LabOrdersResource extends AbstractResource
     {
         return $this->httpClient->get("/api/lab_orders/{$orderId}/document");
     }
+
+    /**
+     * Get lab orders summary
+     *
+     * Returns a summary view of lab orders, typically with aggregated
+     * information and status counts. This endpoint provides a high-level
+     * overview of lab orders.
+     *
+     * @param array $filters Optional filters (patient, doctor, date_range, etc.)
+     * @return array Lab orders summary data
+     */
+    public function getSummary(array $filters = []): array
+    {
+        return $this->httpClient->get('/api/lab_orders_summary', $filters);
+    }
 }
