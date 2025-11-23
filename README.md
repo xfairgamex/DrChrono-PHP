@@ -101,7 +101,43 @@ $client->problems        // Problem list
 $client->vitals          // Vital signs
 $client->immunizations   // Vaccination records
 $client->billing         // Billing and transactions
+$client->appointmentProfiles    // Appointment types
+$client->appointmentTemplates   // Recurring blocks
+$client->patientPayments        // Payment records
+$client->patientMessages        // Patient communications
 ```
+
+### Verbose Mode
+
+Some endpoints support verbose mode to include additional related data that requires extra database queries:
+
+```php
+// Get patient with full insurance details
+$patient = $client->patients->getWithInsurance($patientId);
+echo "Insurance: {$patient['primary_insurance']['insurance_company']}\n";
+
+// Get appointment with clinical data (vitals, notes, etc.)
+$appointment = $client->appointments->getWithClinicalData($appointmentId);
+
+// List patients with insurance details
+// Note: Page size limited to 50 (vs 250 default)
+$patients = $client->patients->listWithInsurance(['doctor' => 123456]);
+
+// Manual verbose mode
+$appointments = $client->appointments->list(['verbose' => 'true']);
+```
+
+**Verbose mode includes:**
+- **Patients**: Full insurance objects, custom demographics, patient flags
+- **Appointments**: Clinical notes, vitals, status history, reminders
+- **Clinical Notes**: Detailed section content
+
+**Performance considerations:**
+- Page size reduced from 250 to 50 records
+- Response time 2-5x slower per request
+- Use only when you need the extra fields
+
+See `examples/07_verbose_mode.php` for detailed examples.
 
 ### Pagination
 
@@ -452,6 +488,7 @@ Runnable examples are provided in the `examples/` directory:
 - `04_appointments_crud.php` - Appointment scheduling
 - `05_webhook_handler.php` - Webhook verification and handling
 - `06_clinical_workflow.php` - Complete clinical workflow example
+- `07_verbose_mode.php` - Using verbose mode for additional data
 
 ## API Reference
 
@@ -461,6 +498,9 @@ Runnable examples are provided in the `examples/` directory:
 |----------|-------------|---------|
 | `patients` | Patient demographics and records | `$client->patients->list()` |
 | `appointments` | Appointment scheduling | `$client->appointments->listByDateRange()` |
+| `appointmentProfiles` | Appointment types & durations | `$client->appointmentProfiles->listByDoctor()` |
+| `appointmentTemplates` | Recurring appointment blocks | `$client->appointmentTemplates->createTemplate()` |
+| `customAppointmentFields` | Custom appointment metadata | `$client->customAppointmentFields->listByDoctor()` |
 | `clinicalNotes` | Clinical documentation | `$client->clinicalNotes->createNote()` |
 | `documents` | Document management | `$client->documents->upload()` |
 | `offices` | Office locations | `$client->offices->listAll()` |
@@ -475,6 +515,11 @@ Runnable examples are provided in the `examples/` directory:
 | `problems` | Problem list | `$client->problems->createProblem()` |
 | `vitals` | Vital signs | `$client->vitals->createVitals()` |
 | `immunizations` | Vaccination records | `$client->immunizations->listByPatient()` |
+| `patientPayments` | Patient payment records | `$client->patientPayments->listByPatient()` |
+| `patientMessages` | Patient communications | `$client->patientMessages->sendMessage()` |
+| `patientsSummary` | Bulk patient summaries | `$client->patientsSummary->listByDoctor()` |
+| `customDemographics` | Custom patient fields | `$client->customDemographics->createField()` |
+| `patientFlagTypes` | Custom patient flags | `$client->patientFlagTypes->createFlagType()` |
 | `billing` | Billing/transactions | `$client->billing->listLineItems()` |
 
 ## Contributing

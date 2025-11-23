@@ -32,6 +32,14 @@ use DrChrono\Resource\MessagesResource;
 use DrChrono\Resource\ReminderProfilesResource;
 use DrChrono\Resource\SublabsResource;
 use DrChrono\Resource\InventoryVaccinesResource;
+use DrChrono\Resource\AppointmentProfilesResource;
+use DrChrono\Resource\AppointmentTemplatesResource;
+use DrChrono\Resource\CustomAppointmentFieldsResource;
+use DrChrono\Resource\PatientPaymentsResource;
+use DrChrono\Resource\PatientMessagesResource;
+use DrChrono\Resource\PatientsSummaryResource;
+use DrChrono\Resource\CustomDemographicsResource;
+use DrChrono\Resource\PatientFlagTypesResource;
 
 /**
  * Main DrChrono SDK client
@@ -56,6 +64,14 @@ use DrChrono\Resource\InventoryVaccinesResource;
  * @property-read ImmunizationsResource $immunizations
  * @property-read BillingResource $billing
  * @property-read MessagesResource $messages
+ * @property-read AppointmentProfilesResource $appointmentProfiles
+ * @property-read AppointmentTemplatesResource $appointmentTemplates
+ * @property-read CustomAppointmentFieldsResource $customAppointmentFields
+ * @property-read PatientPaymentsResource $patientPayments
+ * @property-read PatientMessagesResource $patientMessages
+ * @property-read PatientsSummaryResource $patientsSummary
+ * @property-read CustomDemographicsResource $customDemographics
+ * @property-read PatientFlagTypesResource $patientFlagTypes
  */
 class DrChronoClient
 {
@@ -162,6 +178,14 @@ class DrChronoClient
             'reminderProfiles' => new ReminderProfilesResource($this->httpClient),
             'sublabs' => new SublabsResource($this->httpClient),
             'inventoryVaccines' => new InventoryVaccinesResource($this->httpClient),
+            'appointmentProfiles' => new AppointmentProfilesResource($this->httpClient),
+            'appointmentTemplates' => new AppointmentTemplatesResource($this->httpClient),
+            'customAppointmentFields' => new CustomAppointmentFieldsResource($this->httpClient),
+            'patientPayments' => new PatientPaymentsResource($this->httpClient),
+            'patientMessages' => new PatientMessagesResource($this->httpClient),
+            'patientsSummary' => new PatientsSummaryResource($this->httpClient),
+            'customDemographics' => new CustomDemographicsResource($this->httpClient),
+            'patientFlagTypes' => new PatientFlagTypesResource($this->httpClient),
             default => throw new \InvalidArgumentException("Unknown resource: {$name}"),
         };
 
