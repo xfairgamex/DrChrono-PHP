@@ -40,6 +40,8 @@ use DrChrono\Resource\PatientMessagesResource;
 use DrChrono\Resource\PatientsSummaryResource;
 use DrChrono\Resource\CustomDemographicsResource;
 use DrChrono\Resource\PatientFlagTypesResource;
+use DrChrono\Resource\BillingProfilesResource;
+use DrChrono\Resource\EligibilityChecksResource;
 
 /**
  * Main DrChrono SDK client
@@ -72,6 +74,8 @@ use DrChrono\Resource\PatientFlagTypesResource;
  * @property-read PatientsSummaryResource $patientsSummary
  * @property-read CustomDemographicsResource $customDemographics
  * @property-read PatientFlagTypesResource $patientFlagTypes
+ * @property-read BillingProfilesResource $billingProfiles
+ * @property-read EligibilityChecksResource $eligibilityChecks
  */
 class DrChronoClient
 {
@@ -186,6 +190,8 @@ class DrChronoClient
             'patientsSummary' => new PatientsSummaryResource($this->httpClient),
             'customDemographics' => new CustomDemographicsResource($this->httpClient),
             'patientFlagTypes' => new PatientFlagTypesResource($this->httpClient),
+            'billingProfiles' => new BillingProfilesResource($this->httpClient),
+            'eligibilityChecks' => new EligibilityChecksResource($this->httpClient),
             default => throw new \InvalidArgumentException("Unknown resource: {$name}"),
         };
 
