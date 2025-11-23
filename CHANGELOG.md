@@ -51,6 +51,107 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2025-11-23
+
+### Added - Phase 2 Billing & Financial Resources (COMPLETED)
+
+#### New Resources (6)
+- Added **FeeSchedulesResource** - Pricing and fee schedule management
+  - `list()` - List fee schedules with filters
+  - `listByDoctor()` - Get schedules for specific doctor
+  - `get()` - Get specific fee schedule
+  - `createSchedule()` - Create new fee schedule
+  - `updateSchedule()` - Update fee schedule
+  - `deleteSchedule()` - Delete fee schedule
+  - `getByCode()` - Get fees by procedure code
+
+- Added **TransactionsResource** - Payment transaction management
+  - `list()` - List transactions with comprehensive filters
+  - `listByPatient()` - Get transactions for specific patient
+  - `listByAppointment()` - Get transactions for specific appointment
+  - `listByDoctor()` - Get transactions for specific doctor
+  - `get()` - Get specific transaction
+  - `createTransaction()` - Create new transaction
+  - `updateTransaction()` - Update transaction
+  - `deleteTransaction()` - Delete transaction
+  - `recordPayment()` - Convenience method for recording payments
+  - `recordAdjustment()` - Convenience method for recording adjustments
+
+- Added **LineItemsResource** - Invoice line item management
+  - `list()` - List line items with filters
+  - `listByAppointment()` - Get line items for specific appointment
+  - `listByDoctor()` - Get line items for specific doctor
+  - `listByPatient()` - Get line items for specific patient
+  - `get()` - Get specific line item
+  - `createLineItem()` - Create new line item
+  - `updateLineItem()` - Update line item
+  - `deleteLineItem()` - Delete line item
+  - `listByCode()` - Get line items by procedure code
+  - `addProcedure()` - Convenience method to add procedure to appointment
+
+- Added **PatientPaymentLogResource** - Payment history and audit trail
+  - `list()` - List payment log entries
+  - `listByPatient()` - Get log entries for specific patient
+  - `listByPayment()` - Get log entries for specific payment
+  - `listByDoctor()` - Get log entries for specific doctor
+  - `get()` - Get specific log entry
+  - `getPaymentHistory()` - Get payment history for patient
+  - `getRecentActivity()` - Get recent payment activity
+
+- Added **ConsentFormsResource** - Patient consent form management
+  - `list()` - List consent forms
+  - `listByPatient()` - Get consent forms for specific patient
+  - `listByDoctor()` - Get consent forms for specific doctor
+  - `get()` - Get specific consent form
+  - `createForm()` - Create new consent form
+  - `updateForm()` - Update consent form
+  - `deleteForm()` - Delete consent form
+  - `markAsSigned()` - Mark form as signed
+  - `getUnsignedForms()` - Get unsigned forms for patient
+
+- Added **CustomInsurancePlanNamesResource** - Custom insurance plan naming
+  - `list()` - List custom plan names
+  - `listByDoctor()` - Get custom names for specific doctor
+  - `get()` - Get specific custom plan name
+  - `createPlanName()` - Create new custom plan name
+  - `updatePlanName()` - Update custom plan name
+  - `deletePlanName()` - Delete custom plan name
+  - `setCustomName()` - Convenience method to set custom name
+
+#### New Models (5)
+- Added **FeeSchedule** model with pricing properties
+- Added **Transaction** model with payment tracking (`isPayment()`, `isAdjustment()` helpers)
+- Added **LineItem** model with billing code properties and `getTotal()` calculator
+- Added **ConsentForm** model with consent tracking (`isSigned()`, `requiresSignature()` helpers)
+- Added **CustomInsurancePlanName** model for custom plan naming
+
+#### Unit Tests (11)
+- Added FeeSchedulesResourceTest (7 tests)
+- Added TransactionsResourceTest (10 tests)
+- Added LineItemsResourceTest (10 tests)
+- Added PatientPaymentLogResourceTest (7 tests)
+- Added ConsentFormsResourceTest (9 tests)
+- Added CustomInsurancePlanNamesResourceTest (7 tests)
+- Added FeeScheduleTest (5 tests)
+- Added TransactionTest (6 tests)
+- Added LineItemTest (6 tests)
+- Added ConsentFormTest (6 tests)
+- Added CustomInsurancePlanNameTest (4 tests)
+- Total: 77 new tests, 164+ tests passing overall
+
+### Improved
+- Updated DrChronoClient with 6 new Phase 2 resources
+- Updated README API reference with all new resources
+- Enhanced documentation with detailed method descriptions
+- Improved PHPDoc coverage across all new files
+
+### Technical
+- Phase 2 complete: 8/8 billing resources implemented (100%)
+- API coverage increased to 60%+ (43/69 endpoints)
+- All resources follow established patterns from IMPLEMENTATION_GUIDE.md
+- Code follows PSR-12 standards
+- Comprehensive unit test coverage for all new functionality
+
 ## [1.2.0] - 2025-11-23
 
 ### Added - Phase 1 Testing & Phase 2 Start

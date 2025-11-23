@@ -42,6 +42,12 @@ use DrChrono\Resource\CustomDemographicsResource;
 use DrChrono\Resource\PatientFlagTypesResource;
 use DrChrono\Resource\BillingProfilesResource;
 use DrChrono\Resource\EligibilityChecksResource;
+use DrChrono\Resource\FeeSchedulesResource;
+use DrChrono\Resource\TransactionsResource;
+use DrChrono\Resource\LineItemsResource;
+use DrChrono\Resource\PatientPaymentLogResource;
+use DrChrono\Resource\ConsentFormsResource;
+use DrChrono\Resource\CustomInsurancePlanNamesResource;
 
 /**
  * Main DrChrono SDK client
@@ -76,6 +82,12 @@ use DrChrono\Resource\EligibilityChecksResource;
  * @property-read PatientFlagTypesResource $patientFlagTypes
  * @property-read BillingProfilesResource $billingProfiles
  * @property-read EligibilityChecksResource $eligibilityChecks
+ * @property-read FeeSchedulesResource $feeSchedules
+ * @property-read TransactionsResource $transactions
+ * @property-read LineItemsResource $lineItems
+ * @property-read PatientPaymentLogResource $patientPaymentLog
+ * @property-read ConsentFormsResource $consentForms
+ * @property-read CustomInsurancePlanNamesResource $customInsurancePlanNames
  */
 class DrChronoClient
 {
@@ -192,6 +204,12 @@ class DrChronoClient
             'patientFlagTypes' => new PatientFlagTypesResource($this->httpClient),
             'billingProfiles' => new BillingProfilesResource($this->httpClient),
             'eligibilityChecks' => new EligibilityChecksResource($this->httpClient),
+            'feeSchedules' => new FeeSchedulesResource($this->httpClient),
+            'transactions' => new TransactionsResource($this->httpClient),
+            'lineItems' => new LineItemsResource($this->httpClient),
+            'patientPaymentLog' => new PatientPaymentLogResource($this->httpClient),
+            'consentForms' => new ConsentFormsResource($this->httpClient),
+            'customInsurancePlanNames' => new CustomInsurancePlanNamesResource($this->httpClient),
             default => throw new \InvalidArgumentException("Unknown resource: {$name}"),
         };
 

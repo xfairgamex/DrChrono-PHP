@@ -523,6 +523,12 @@ Runnable examples are provided in the `examples/` directory:
 | `billing` | Billing/transactions | `$client->billing->listLineItems()` |
 | `billingProfiles` | Billing configurations | `$client->billingProfiles->getByDoctor()` |
 | `eligibilityChecks` | Insurance verification | `$client->eligibilityChecks->verifyPrimaryInsurance()` |
+| `feeSchedules` | Pricing and fee schedules | `$client->feeSchedules->getByCode()` |
+| `transactions` | Payment transactions | `$client->transactions->recordPayment()` |
+| `lineItems` | Invoice line items | `$client->lineItems->addProcedure()` |
+| `patientPaymentLog` | Payment history/audit | `$client->patientPaymentLog->getPaymentHistory()` |
+| `consentForms` | Patient consent forms | `$client->consentForms->markAsSigned()` |
+| `customInsurancePlanNames` | Custom insurance naming | `$client->customInsurancePlanNames->setCustomName()` |
 
 ## Contributing
 
