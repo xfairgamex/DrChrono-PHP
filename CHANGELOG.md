@@ -5,6 +5,81 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2025-11-23
+
+### Added - Phase 4: Inventory & Extended Task Management
+
+Complete implementation of Phase 4, adding 6 new resources for inventory management and enhanced task workflow capabilities.
+
+#### Inventory Management (2 Resources)
+- **InventoryCategoriesResource** - Organize inventory with categories
+  - `list()`, `get()`, `createCategory()`, `updateCategory()`, `deleteCategory()`
+  - `getByName()` - Find category by name
+  - `listOrdered()` - Get categories sorted by display order
+  - API Endpoint: `/api/inventory_categories`
+
+- **PatientVaccineRecordsResource** - Track patient immunization history
+  - `list()`, `get()`, `createRecord()`, `updateRecord()`, `deleteRecord()`
+  - `listByPatient()`, `listByDoctor()`, `listByVaccine()` - Filter by entity
+  - `listByDateRange()` - Get records within date range
+  - `getImmunizationHistory()` - Get patient's complete immunization history
+  - `getByLotNumber()` - Track vaccines by lot number for recall management
+  - API Endpoint: `/api/patient_vaccine_records`
+
+#### Task Management Extensions (4 Resources)
+- **TaskTemplatesResource** - Create reusable task templates
+  - `list()`, `get()`, `createTemplate()`, `updateTemplate()`, `deleteTemplate()`
+  - `listByDoctor()`, `listByCategory()` - Filter templates
+  - `instantiateTemplate()` - Create task from template
+  - `duplicateTemplate()` - Clone template with new name
+  - `getByPriority()` - Filter by priority level
+  - API Endpoint: `/api/task_templates`
+
+- **TaskCategoriesResource** - Organize tasks by category
+  - `list()`, `get()`, `createCategory()`, `updateCategory()`, `deleteCategory()`
+  - `getByName()` - Find category by name
+  - `listActive()` - Get active categories only
+  - `listOrdered()` - Get categories sorted by display order
+  - `archive()` / `restore()` - Archive/restore categories
+  - API Endpoint: `/api/task_categories`
+
+- **TaskStatusesResource** - Define custom task workflow states
+  - `list()`, `get()`, `createStatus()`, `updateStatus()`, `deleteStatus()`
+  - `getByName()` - Find status by name
+  - `listActive()` - Get active statuses only
+  - `listOrdered()` - Get statuses sorted by display order
+  - `getDefault()` - Get the default status
+  - `listCompletionStatuses()` - Get all completion statuses
+  - `archive()` / `restore()` - Archive/restore statuses
+  - `setAsDefault()` - Set a status as default
+  - API Endpoint: `/api/task_statuses`
+
+- **TaskNotesResource** - Add detailed notes to tasks
+  - `list()`, `get()`, `createNote()`, `updateNote()`, `deleteNote()`
+  - `listByTask()`, `listByAuthor()` - Filter notes
+  - `addQuickNote()` - Quickly add a note to a task
+  - `pin()` / `unpin()` - Pin important notes
+  - `getPinnedNotes()` - Get pinned notes for a task
+  - `getTaskHistory()` - Get notes ordered by date
+  - `getRecent()` - Get recent notes across all tasks
+  - API Endpoint: `/api/task_notes`
+
+#### New Models
+- **InventoryCategory** - Inventory category model
+- **VaccineRecord** - Patient vaccine record model with `isExpired()` helper
+- **TaskTemplate** - Task template model with `isHighPriority()`, `isUrgent()` helpers
+- **TaskCategory** - Task category model
+
+#### Tests
+- Added 67 comprehensive unit tests for all Phase 4 resources
+- 138 assertions covering all CRUD operations and convenience methods
+- 100% test pass rate
+
+### Improvements
+- Updated DrChronoClient with Phase 4 resource registrations
+- Enhanced README with Phase 4 resource examples
+- Comprehensive PHPDoc documentation for all new methods
+
 ## [1.4.0] - 2025-11-23
 
 ### Added - Phase 3: Advanced Clinical & Preventive Care

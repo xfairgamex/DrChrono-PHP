@@ -59,6 +59,12 @@ use DrChrono\Resource\PatientPhysicalExamsResource;
 use DrChrono\Resource\PatientInterventionsResource;
 use DrChrono\Resource\PatientCommunicationsResource;
 use DrChrono\Resource\ImplantableDevicesResource;
+use DrChrono\Resource\InventoryCategoriesResource;
+use DrChrono\Resource\PatientVaccineRecordsResource;
+use DrChrono\Resource\TaskTemplatesResource;
+use DrChrono\Resource\TaskCategoriesResource;
+use DrChrono\Resource\TaskStatusesResource;
+use DrChrono\Resource\TaskNotesResource;
 
 /**
  * Main DrChrono SDK client
@@ -110,6 +116,12 @@ use DrChrono\Resource\ImplantableDevicesResource;
  * @property-read PatientInterventionsResource $patientInterventions
  * @property-read PatientCommunicationsResource $patientCommunications
  * @property-read ImplantableDevicesResource $implantableDevices
+ * @property-read InventoryCategoriesResource $inventoryCategories
+ * @property-read PatientVaccineRecordsResource $patientVaccineRecords
+ * @property-read TaskTemplatesResource $taskTemplates
+ * @property-read TaskCategoriesResource $taskCategories
+ * @property-read TaskStatusesResource $taskStatuses
+ * @property-read TaskNotesResource $taskNotes
  */
 class DrChronoClient
 {
@@ -243,6 +255,12 @@ class DrChronoClient
             'patientInterventions' => new PatientInterventionsResource($this->httpClient),
             'patientCommunications' => new PatientCommunicationsResource($this->httpClient),
             'implantableDevices' => new ImplantableDevicesResource($this->httpClient),
+            'inventoryCategories' => new InventoryCategoriesResource($this->httpClient),
+            'patientVaccineRecords' => new PatientVaccineRecordsResource($this->httpClient),
+            'taskTemplates' => new TaskTemplatesResource($this->httpClient),
+            'taskCategories' => new TaskCategoriesResource($this->httpClient),
+            'taskStatuses' => new TaskStatusesResource($this->httpClient),
+            'taskNotes' => new TaskNotesResource($this->httpClient),
             default => throw new \InvalidArgumentException("Unknown resource: {$name}"),
         };
 
