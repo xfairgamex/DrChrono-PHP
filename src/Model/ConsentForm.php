@@ -11,12 +11,23 @@ namespace DrChrono\Model;
  */
 class ConsentForm extends AbstractModel
 {
+    protected ?int $id = null;
+    protected ?int $patient = null;
+    protected ?string $title = null;
+    protected ?string $content = null;
+    protected ?int $doctor = null;
+    protected ?string $signedDate = null;
+    protected ?int $document = null;
+    protected ?bool $isSigned = null;
+    protected ?string $createdAt = null;
+    protected ?string $updatedAt = null;
+
     /**
      * Get consent form ID
      */
     public function getId(): ?int
     {
-        return $this->data['id'] ?? null;
+        return $this->id;
     }
 
     /**
@@ -24,7 +35,7 @@ class ConsentForm extends AbstractModel
      */
     public function getPatientId(): ?int
     {
-        return $this->data['patient'] ?? null;
+        return $this->patient;
     }
 
     /**
@@ -32,7 +43,7 @@ class ConsentForm extends AbstractModel
      */
     public function setPatient(int $patientId): self
     {
-        $this->data['patient'] = $patientId;
+        $this->patient = $patientId;
         return $this;
     }
 
@@ -41,7 +52,7 @@ class ConsentForm extends AbstractModel
      */
     public function getTitle(): ?string
     {
-        return $this->data['title'] ?? null;
+        return $this->title;
     }
 
     /**
@@ -49,7 +60,7 @@ class ConsentForm extends AbstractModel
      */
     public function setTitle(string $title): self
     {
-        $this->data['title'] = $title;
+        $this->title = $title;
         return $this;
     }
 
@@ -58,7 +69,7 @@ class ConsentForm extends AbstractModel
      */
     public function getContent(): ?string
     {
-        return $this->data['content'] ?? null;
+        return $this->content;
     }
 
     /**
@@ -66,7 +77,7 @@ class ConsentForm extends AbstractModel
      */
     public function setContent(string $content): self
     {
-        $this->data['content'] = $content;
+        $this->content = $content;
         return $this;
     }
 
@@ -75,7 +86,7 @@ class ConsentForm extends AbstractModel
      */
     public function getDoctorId(): ?int
     {
-        return $this->data['doctor'] ?? null;
+        return $this->doctor;
     }
 
     /**
@@ -83,7 +94,7 @@ class ConsentForm extends AbstractModel
      */
     public function setDoctor(int $doctorId): self
     {
-        $this->data['doctor'] = $doctorId;
+        $this->doctor = $doctorId;
         return $this;
     }
 
@@ -92,7 +103,7 @@ class ConsentForm extends AbstractModel
      */
     public function getSignedDate(): ?string
     {
-        return $this->data['signed_date'] ?? null;
+        return $this->signedDate;
     }
 
     /**
@@ -100,7 +111,7 @@ class ConsentForm extends AbstractModel
      */
     public function setSignedDate(string $date): self
     {
-        $this->data['signed_date'] = $date;
+        $this->signedDate = $date;
         return $this;
     }
 
@@ -109,7 +120,7 @@ class ConsentForm extends AbstractModel
      */
     public function getDocumentId(): ?int
     {
-        return $this->data['document'] ?? null;
+        return $this->document;
     }
 
     /**
@@ -117,7 +128,7 @@ class ConsentForm extends AbstractModel
      */
     public function setDocument(int $documentId): self
     {
-        $this->data['document'] = $documentId;
+        $this->document = $documentId;
         return $this;
     }
 
@@ -126,7 +137,7 @@ class ConsentForm extends AbstractModel
      */
     public function isSigned(): bool
     {
-        return !empty($this->data['is_signed']);
+        return $this->isSigned ?? false;
     }
 
     /**
@@ -134,7 +145,7 @@ class ConsentForm extends AbstractModel
      */
     public function setSigned(bool $signed): self
     {
-        $this->data['is_signed'] = $signed;
+        $this->isSigned = $signed;
         return $this;
     }
 
@@ -151,7 +162,7 @@ class ConsentForm extends AbstractModel
      */
     public function getCreatedAt(): ?string
     {
-        return $this->data['created_at'] ?? null;
+        return $this->createdAt;
     }
 
     /**
@@ -159,6 +170,6 @@ class ConsentForm extends AbstractModel
      */
     public function getUpdatedAt(): ?string
     {
-        return $this->data['updated_at'] ?? null;
+        return $this->updatedAt;
     }
 }

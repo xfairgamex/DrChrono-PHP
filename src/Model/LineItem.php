@@ -11,12 +11,27 @@ namespace DrChrono\Model;
  */
 class LineItem extends AbstractModel
 {
+    protected ?int $id = null;
+    protected ?int $appointment = null;
+    protected ?string $code = null;
+    protected ?string $procedureType = null;
+    protected ?int $quantity = null;
+    protected ?float $price = null;
+    protected ?float $adjustment = null;
+    protected ?int $doctor = null;
+    protected ?array $modifiers = null;
+    protected ?array $diagnosisPointers = null;
+    protected ?string $units = null;
+    protected ?int $placeOfService = null;
+    protected ?string $createdAt = null;
+    protected ?string $updatedAt = null;
+
     /**
      * Get line item ID
      */
     public function getId(): ?int
     {
-        return $this->data['id'] ?? null;
+        return $this->id;
     }
 
     /**
@@ -24,7 +39,7 @@ class LineItem extends AbstractModel
      */
     public function getAppointmentId(): ?int
     {
-        return $this->data['appointment'] ?? null;
+        return $this->appointment;
     }
 
     /**
@@ -32,7 +47,7 @@ class LineItem extends AbstractModel
      */
     public function setAppointment(int $appointmentId): self
     {
-        $this->data['appointment'] = $appointmentId;
+        $this->appointment = $appointmentId;
         return $this;
     }
 
@@ -41,7 +56,7 @@ class LineItem extends AbstractModel
      */
     public function getCode(): ?string
     {
-        return $this->data['code'] ?? null;
+        return $this->code;
     }
 
     /**
@@ -49,7 +64,7 @@ class LineItem extends AbstractModel
      */
     public function setCode(string $code): self
     {
-        $this->data['code'] = $code;
+        $this->code = $code;
         return $this;
     }
 
@@ -58,7 +73,7 @@ class LineItem extends AbstractModel
      */
     public function getProcedureType(): ?string
     {
-        return $this->data['procedure_type'] ?? null;
+        return $this->procedureType;
     }
 
     /**
@@ -66,7 +81,7 @@ class LineItem extends AbstractModel
      */
     public function setProcedureType(string $type): self
     {
-        $this->data['procedure_type'] = $type;
+        $this->procedureType = $type;
         return $this;
     }
 
@@ -75,7 +90,7 @@ class LineItem extends AbstractModel
      */
     public function getQuantity(): ?int
     {
-        return $this->data['quantity'] ?? null;
+        return $this->quantity;
     }
 
     /**
@@ -83,7 +98,7 @@ class LineItem extends AbstractModel
      */
     public function setQuantity(int $quantity): self
     {
-        $this->data['quantity'] = $quantity;
+        $this->quantity = $quantity;
         return $this;
     }
 
@@ -92,7 +107,7 @@ class LineItem extends AbstractModel
      */
     public function getPrice(): ?float
     {
-        return isset($this->data['price']) ? (float) $this->data['price'] : null;
+        return $this->price;
     }
 
     /**
@@ -100,7 +115,7 @@ class LineItem extends AbstractModel
      */
     public function setPrice(float $price): self
     {
-        $this->data['price'] = $price;
+        $this->price = $price;
         return $this;
     }
 
@@ -109,7 +124,7 @@ class LineItem extends AbstractModel
      */
     public function getAdjustment(): ?float
     {
-        return isset($this->data['adjustment']) ? (float) $this->data['adjustment'] : null;
+        return $this->adjustment;
     }
 
     /**
@@ -117,7 +132,7 @@ class LineItem extends AbstractModel
      */
     public function setAdjustment(float $adjustment): self
     {
-        $this->data['adjustment'] = $adjustment;
+        $this->adjustment = $adjustment;
         return $this;
     }
 
@@ -126,7 +141,7 @@ class LineItem extends AbstractModel
      */
     public function getDoctorId(): ?int
     {
-        return $this->data['doctor'] ?? null;
+        return $this->doctor;
     }
 
     /**
@@ -134,7 +149,7 @@ class LineItem extends AbstractModel
      */
     public function setDoctor(int $doctorId): self
     {
-        $this->data['doctor'] = $doctorId;
+        $this->doctor = $doctorId;
         return $this;
     }
 
@@ -143,7 +158,7 @@ class LineItem extends AbstractModel
      */
     public function getModifiers(): ?array
     {
-        return $this->data['modifiers'] ?? null;
+        return $this->modifiers;
     }
 
     /**
@@ -151,7 +166,7 @@ class LineItem extends AbstractModel
      */
     public function setModifiers(array $modifiers): self
     {
-        $this->data['modifiers'] = $modifiers;
+        $this->modifiers = $modifiers;
         return $this;
     }
 
@@ -160,7 +175,7 @@ class LineItem extends AbstractModel
      */
     public function getDiagnosisPointers(): ?array
     {
-        return $this->data['diagnosis_pointers'] ?? null;
+        return $this->diagnosisPointers;
     }
 
     /**
@@ -168,7 +183,7 @@ class LineItem extends AbstractModel
      */
     public function setDiagnosisPointers(array $pointers): self
     {
-        $this->data['diagnosis_pointers'] = $pointers;
+        $this->diagnosisPointers = $pointers;
         return $this;
     }
 
@@ -177,7 +192,7 @@ class LineItem extends AbstractModel
      */
     public function getUnits(): ?string
     {
-        return $this->data['units'] ?? null;
+        return $this->units;
     }
 
     /**
@@ -185,7 +200,7 @@ class LineItem extends AbstractModel
      */
     public function setUnits(string $units): self
     {
-        $this->data['units'] = $units;
+        $this->units = $units;
         return $this;
     }
 
@@ -194,7 +209,7 @@ class LineItem extends AbstractModel
      */
     public function getPlaceOfService(): ?int
     {
-        return $this->data['place_of_service'] ?? null;
+        return $this->placeOfService;
     }
 
     /**
@@ -202,7 +217,7 @@ class LineItem extends AbstractModel
      */
     public function setPlaceOfService(int $code): self
     {
-        $this->data['place_of_service'] = $code;
+        $this->placeOfService = $code;
         return $this;
     }
 
@@ -223,7 +238,7 @@ class LineItem extends AbstractModel
      */
     public function getCreatedAt(): ?string
     {
-        return $this->data['created_at'] ?? null;
+        return $this->createdAt;
     }
 
     /**
@@ -231,6 +246,6 @@ class LineItem extends AbstractModel
      */
     public function getUpdatedAt(): ?string
     {
-        return $this->data['updated_at'] ?? null;
+        return $this->updatedAt;
     }
 }

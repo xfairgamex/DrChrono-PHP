@@ -11,12 +11,24 @@ namespace DrChrono\Model;
  */
 class Transaction extends AbstractModel
 {
+    protected ?int $id = null;
+    protected ?int $appointment = null;
+    protected ?float $amount = null;
+    protected ?string $transactionType = null;
+    protected ?string $postedDate = null;
+    protected ?string $checkNumber = null;
+    protected ?string $insName = null;
+    protected ?string $note = null;
+    protected ?int $doctor = null;
+    protected ?string $createdAt = null;
+    protected ?string $updatedAt = null;
+
     /**
      * Get transaction ID
      */
     public function getId(): ?int
     {
-        return $this->data['id'] ?? null;
+        return $this->id;
     }
 
     /**
@@ -24,7 +36,7 @@ class Transaction extends AbstractModel
      */
     public function getAppointmentId(): ?int
     {
-        return $this->data['appointment'] ?? null;
+        return $this->appointment;
     }
 
     /**
@@ -32,7 +44,7 @@ class Transaction extends AbstractModel
      */
     public function setAppointment(int $appointmentId): self
     {
-        $this->data['appointment'] = $appointmentId;
+        $this->appointment = $appointmentId;
         return $this;
     }
 
@@ -41,7 +53,7 @@ class Transaction extends AbstractModel
      */
     public function getAmount(): ?float
     {
-        return isset($this->data['amount']) ? (float) $this->data['amount'] : null;
+        return $this->amount;
     }
 
     /**
@@ -49,7 +61,7 @@ class Transaction extends AbstractModel
      */
     public function setAmount(float $amount): self
     {
-        $this->data['amount'] = $amount;
+        $this->amount = $amount;
         return $this;
     }
 
@@ -58,7 +70,7 @@ class Transaction extends AbstractModel
      */
     public function getTransactionType(): ?string
     {
-        return $this->data['transaction_type'] ?? null;
+        return $this->transactionType;
     }
 
     /**
@@ -66,7 +78,7 @@ class Transaction extends AbstractModel
      */
     public function setTransactionType(string $type): self
     {
-        $this->data['transaction_type'] = $type;
+        $this->transactionType = $type;
         return $this;
     }
 
@@ -75,7 +87,7 @@ class Transaction extends AbstractModel
      */
     public function getPostedDate(): ?string
     {
-        return $this->data['posted_date'] ?? null;
+        return $this->postedDate;
     }
 
     /**
@@ -83,7 +95,7 @@ class Transaction extends AbstractModel
      */
     public function setPostedDate(string $date): self
     {
-        $this->data['posted_date'] = $date;
+        $this->postedDate = $date;
         return $this;
     }
 
@@ -92,7 +104,7 @@ class Transaction extends AbstractModel
      */
     public function getCheckNumber(): ?string
     {
-        return $this->data['check_number'] ?? null;
+        return $this->checkNumber;
     }
 
     /**
@@ -100,7 +112,7 @@ class Transaction extends AbstractModel
      */
     public function setCheckNumber(string $checkNumber): self
     {
-        $this->data['check_number'] = $checkNumber;
+        $this->checkNumber = $checkNumber;
         return $this;
     }
 
@@ -109,7 +121,7 @@ class Transaction extends AbstractModel
      */
     public function getInsuranceName(): ?string
     {
-        return $this->data['ins_name'] ?? null;
+        return $this->insName;
     }
 
     /**
@@ -117,7 +129,7 @@ class Transaction extends AbstractModel
      */
     public function setInsuranceName(string $name): self
     {
-        $this->data['ins_name'] = $name;
+        $this->insName = $name;
         return $this;
     }
 
@@ -126,7 +138,7 @@ class Transaction extends AbstractModel
      */
     public function getNote(): ?string
     {
-        return $this->data['note'] ?? null;
+        return $this->note;
     }
 
     /**
@@ -134,7 +146,7 @@ class Transaction extends AbstractModel
      */
     public function setNote(string $note): self
     {
-        $this->data['note'] = $note;
+        $this->note = $note;
         return $this;
     }
 
@@ -143,7 +155,7 @@ class Transaction extends AbstractModel
      */
     public function getDoctorId(): ?int
     {
-        return $this->data['doctor'] ?? null;
+        return $this->doctor;
     }
 
     /**
@@ -151,7 +163,7 @@ class Transaction extends AbstractModel
      */
     public function setDoctor(int $doctorId): self
     {
-        $this->data['doctor'] = $doctorId;
+        $this->doctor = $doctorId;
         return $this;
     }
 
@@ -176,7 +188,7 @@ class Transaction extends AbstractModel
      */
     public function getCreatedAt(): ?string
     {
-        return $this->data['created_at'] ?? null;
+        return $this->createdAt;
     }
 
     /**
@@ -184,6 +196,6 @@ class Transaction extends AbstractModel
      */
     public function getUpdatedAt(): ?string
     {
-        return $this->data['updated_at'] ?? null;
+        return $this->updatedAt;
     }
 }

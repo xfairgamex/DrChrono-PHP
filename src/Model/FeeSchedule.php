@@ -11,12 +11,22 @@ namespace DrChrono\Model;
  */
 class FeeSchedule extends AbstractModel
 {
+    protected ?int $id = null;
+    protected ?string $name = null;
+    protected ?string $code = null;
+    protected ?float $price = null;
+    protected ?int $doctor = null;
+    protected ?int $insurancePlan = null;
+    protected ?array $modifiers = null;
+    protected ?string $updatedAt = null;
+    protected ?string $createdAt = null;
+
     /**
      * Get fee schedule ID
      */
     public function getId(): ?int
     {
-        return $this->data['id'] ?? null;
+        return $this->id;
     }
 
     /**
@@ -24,7 +34,7 @@ class FeeSchedule extends AbstractModel
      */
     public function getName(): ?string
     {
-        return $this->data['name'] ?? null;
+        return $this->name;
     }
 
     /**
@@ -32,7 +42,7 @@ class FeeSchedule extends AbstractModel
      */
     public function setName(string $name): self
     {
-        $this->data['name'] = $name;
+        $this->name = $name;
         return $this;
     }
 
@@ -41,7 +51,7 @@ class FeeSchedule extends AbstractModel
      */
     public function getCode(): ?string
     {
-        return $this->data['code'] ?? null;
+        return $this->code;
     }
 
     /**
@@ -49,7 +59,7 @@ class FeeSchedule extends AbstractModel
      */
     public function setCode(string $code): self
     {
-        $this->data['code'] = $code;
+        $this->code = $code;
         return $this;
     }
 
@@ -58,7 +68,7 @@ class FeeSchedule extends AbstractModel
      */
     public function getPrice(): ?float
     {
-        return isset($this->data['price']) ? (float) $this->data['price'] : null;
+        return $this->price;
     }
 
     /**
@@ -66,7 +76,7 @@ class FeeSchedule extends AbstractModel
      */
     public function setPrice(float $price): self
     {
-        $this->data['price'] = $price;
+        $this->price = $price;
         return $this;
     }
 
@@ -75,7 +85,7 @@ class FeeSchedule extends AbstractModel
      */
     public function getDoctorId(): ?int
     {
-        return $this->data['doctor'] ?? null;
+        return $this->doctor;
     }
 
     /**
@@ -83,7 +93,7 @@ class FeeSchedule extends AbstractModel
      */
     public function setDoctor(int $doctorId): self
     {
-        $this->data['doctor'] = $doctorId;
+        $this->doctor = $doctorId;
         return $this;
     }
 
@@ -92,7 +102,7 @@ class FeeSchedule extends AbstractModel
      */
     public function getInsurancePlanId(): ?int
     {
-        return $this->data['insurance_plan'] ?? null;
+        return $this->insurancePlan;
     }
 
     /**
@@ -100,7 +110,7 @@ class FeeSchedule extends AbstractModel
      */
     public function setInsurancePlan(int $insurancePlanId): self
     {
-        $this->data['insurance_plan'] = $insurancePlanId;
+        $this->insurancePlan = $insurancePlanId;
         return $this;
     }
 
@@ -109,7 +119,7 @@ class FeeSchedule extends AbstractModel
      */
     public function getModifiers(): ?array
     {
-        return $this->data['modifiers'] ?? null;
+        return $this->modifiers;
     }
 
     /**
@@ -117,7 +127,7 @@ class FeeSchedule extends AbstractModel
      */
     public function setModifiers(array $modifiers): self
     {
-        $this->data['modifiers'] = $modifiers;
+        $this->modifiers = $modifiers;
         return $this;
     }
 
@@ -126,7 +136,7 @@ class FeeSchedule extends AbstractModel
      */
     public function getUpdatedAt(): ?string
     {
-        return $this->data['updated_at'] ?? null;
+        return $this->updatedAt;
     }
 
     /**
@@ -134,6 +144,6 @@ class FeeSchedule extends AbstractModel
      */
     public function getCreatedAt(): ?string
     {
-        return $this->data['created_at'] ?? null;
+        return $this->createdAt;
     }
 }
