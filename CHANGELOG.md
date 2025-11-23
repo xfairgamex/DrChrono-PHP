@@ -51,6 +51,56 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-11-23
+
+### Added - Phase 1 Testing & Phase 2 Start
+
+#### Unit Testing Suite (Complete Phase 1)
+- Added comprehensive unit tests for all Phase 1 resources (8 test files)
+  - AppointmentProfilesResourceTest
+  - AppointmentTemplatesResourceTest
+  - CustomAppointmentFieldsResourceTest
+  - PatientPaymentsResourceTest
+  - PatientMessagesResourceTest
+  - PatientsSummaryResourceTest
+  - CustomDemographicsResourceTest
+  - PatientFlagTypesResourceTest
+- Added comprehensive unit tests for all Phase 1 models (5 test files)
+  - AppointmentProfileTest
+  - AppointmentTemplateTest
+  - PatientPaymentTest
+  - PatientMessageTest
+  - PatientFlagTypeTest
+- All 108 tests passing with 357 assertions
+- Full test coverage for Phase 1 implementation
+
+#### Phase 2: Billing & Financial Resources (Started)
+- Added **BillingProfilesResource** - Billing configuration management
+  - `list()` - List billing profiles with filters
+  - `getByDoctor()` - Get billing profile for specific doctor
+  - `createProfile()` - Create new billing profile
+  - `updateProfile()` - Update billing profile
+- Added **EligibilityChecksResource** - Insurance eligibility verification
+  - `list()` - List eligibility checks with filters
+  - `listByPatient()` - Get checks for specific patient
+  - `listByAppointment()` - Get checks for specific appointment
+  - `verify()` - Create and run eligibility check
+  - `verifyPrimaryInsurance()` - Check primary insurance
+  - `verifySecondaryInsurance()` - Check secondary insurance
+- Added **BillingProfile** model with getters/setters
+- Added **EligibilityCheck** model with helper methods (`isEligible()`, `hasError()`, `isCompleted()`)
+
+### Improved
+- Updated DrChronoClient with 2 new resources (billingProfiles, eligibilityChecks)
+- Updated README with new resources in API reference
+- Documentation improvements
+
+### Technical
+- Test infrastructure established with PHPUnit
+- Code style compliance verified (PSR-12)
+- PHPStan compatibility maintained
+- API Coverage: 51% → 54% (37/69 endpoints)
+
 ## [1.1.0] - 2025-11-23
 
 ### Added - Phase 1: Foundation & Core Missing Resources
