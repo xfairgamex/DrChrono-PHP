@@ -3,7 +3,7 @@
 [![PHP Version](https://img.shields.io/badge/php-%5E8.1-blue)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-Production-grade PHP SDK for the DrChrono API - Complete EHR/Practice Management integration for PHP applications.
+PHP SDK for the DrChrono API - EHR/Practice Management integration for PHP applications.
 
 ## Features
 
