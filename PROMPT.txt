@@ -2,6 +2,12 @@ Continue implementation of the DrChrono PHP SDK Complete API Coverage roadmap.
 
 **North Star Goal:** Create the perfect PHP SDK for the DrChrono API that can be dropped into any project and give developers full access to the DrChrono systems - production-grade quality that DrChrono would be proud to officially release.
 
+**Official API Documentation (Source of Truth):**
+- Primary: https://app.drchrono.com/api-docs/
+- v4 Reference: https://app.drchrono.com/api-docs-old/v4/documentation
+
+Use these to verify 100% coverage - if it's in the official docs, it should be in the SDK.
+
 **Context:**
 - Roadmap: `ROADMAP.md`
 - Current coverage audit: `docs/API_COVERAGE_AUDIT.md`
@@ -10,24 +16,26 @@ Continue implementation of the DrChrono PHP SDK Complete API Coverage roadmap.
 
 **Your Task:**
 1. **Review Progress:** Read `docs/PROGRESS.md` to understand what's been completed
-2. **Continue Implementation:** Pick up where the last developer left off, following the roadmap phases
-3. **Record Progress:** Update `docs/PROGRESS.md` with:
+2. **Verify Against API Docs:** Check https://app.drchrono.com/api-docs/ to ensure you're implementing the latest endpoints correctly
+3. **Continue Implementation:** Pick up where the last developer left off, following the roadmap phases
+4. **Record Progress:** Update `docs/PROGRESS.md` with:
    - What you completed (with file paths and line references)
    - What you tested and verified
    - Any roadmap adjustments needed (with justification)
    - Blockers or questions discovered
    - What's next for the next developer
-4. **Maintain Quality:**
+5. **Maintain Quality:**
    - Follow patterns in `docs/IMPLEMENTATION_GUIDE.md`
    - Write tests for everything (90%+ coverage target)
    - Update documentation as you go
    - Commit frequently with clear messages
-5. **Adjust as Needed:**
-   - If you discover the roadmap needs changes, document WHY and update it
-   - If API documentation differs from our plan, adjust and note it
+6. **Adjust as Needed:**
+   - If official API docs differ from our roadmap, update the roadmap and document WHY
+   - If you discover missing endpoints, add them to the roadmap
    - Always keep the North Star in mind - "would DrChrono be proud of this?"
 
 **Quality Checklist (before you finish):**
+- [ ] Verified implementation against official API docs (https://app.drchrono.com/api-docs/)
 - [ ] All new code has PHPDoc comments
 - [ ] All new resources have unit tests
 - [ ] All new features have usage examples
