@@ -99,4 +99,36 @@ class AppointmentsResource extends AbstractResource
     {
         return $this->setStatus($appointmentId, 'Complete');
     }
+
+    /**
+     * Get appointment with clinical details
+     *
+     * Requires verbose mode to include:
+     * - clinical_note (associated note)
+     * - vitals (vital signs)
+     * - custom_vitals (custom vitals)
+     * - status_transitions (status history)
+     * - reminders (reminder settings)
+     * - extended_updated_at
+     *
+     * @param int $appointmentId Appointment ID
+     * @return array Appointment data with clinical details
+     */
+    public function getWithClinicalData(int $appointmentId): array
+    {
+        return $this->getVerbose($appointmentId);
+    }
+
+    /**
+     * List appointments with clinical data
+     *
+     * Note: Verbose mode reduces page size to 50 records
+     *
+     * @param array $filters Optional filters
+     * @return PagedCollection
+     */
+    public function listWithClinicalData(array $filters = []): PagedCollection
+    {
+        return $this->listVerbose($filters);
+    }
 }
