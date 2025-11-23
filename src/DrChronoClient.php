@@ -48,6 +48,17 @@ use DrChrono\Resource\LineItemsResource;
 use DrChrono\Resource\PatientPaymentLogResource;
 use DrChrono\Resource\ConsentFormsResource;
 use DrChrono\Resource\CustomInsurancePlanNamesResource;
+use DrChrono\Resource\ClinicalNoteTemplatesResource;
+use DrChrono\Resource\ClinicalNoteFieldTypesResource;
+use DrChrono\Resource\ClinicalNoteFieldValuesResource;
+use DrChrono\Resource\ProceduresResource;
+use DrChrono\Resource\AmendmentsResource;
+use DrChrono\Resource\CarePlansResource;
+use DrChrono\Resource\PatientRiskAssessmentsResource;
+use DrChrono\Resource\PatientPhysicalExamsResource;
+use DrChrono\Resource\PatientInterventionsResource;
+use DrChrono\Resource\PatientCommunicationsResource;
+use DrChrono\Resource\ImplantableDevicesResource;
 
 /**
  * Main DrChrono SDK client
@@ -88,6 +99,17 @@ use DrChrono\Resource\CustomInsurancePlanNamesResource;
  * @property-read PatientPaymentLogResource $patientPaymentLog
  * @property-read ConsentFormsResource $consentForms
  * @property-read CustomInsurancePlanNamesResource $customInsurancePlanNames
+ * @property-read ClinicalNoteTemplatesResource $clinicalNoteTemplates
+ * @property-read ClinicalNoteFieldTypesResource $clinicalNoteFieldTypes
+ * @property-read ClinicalNoteFieldValuesResource $clinicalNoteFieldValues
+ * @property-read ProceduresResource $procedures
+ * @property-read AmendmentsResource $amendments
+ * @property-read CarePlansResource $carePlans
+ * @property-read PatientRiskAssessmentsResource $patientRiskAssessments
+ * @property-read PatientPhysicalExamsResource $patientPhysicalExams
+ * @property-read PatientInterventionsResource $patientInterventions
+ * @property-read PatientCommunicationsResource $patientCommunications
+ * @property-read ImplantableDevicesResource $implantableDevices
  */
 class DrChronoClient
 {
@@ -210,6 +232,17 @@ class DrChronoClient
             'patientPaymentLog' => new PatientPaymentLogResource($this->httpClient),
             'consentForms' => new ConsentFormsResource($this->httpClient),
             'customInsurancePlanNames' => new CustomInsurancePlanNamesResource($this->httpClient),
+            'clinicalNoteTemplates' => new ClinicalNoteTemplatesResource($this->httpClient),
+            'clinicalNoteFieldTypes' => new ClinicalNoteFieldTypesResource($this->httpClient),
+            'clinicalNoteFieldValues' => new ClinicalNoteFieldValuesResource($this->httpClient),
+            'procedures' => new ProceduresResource($this->httpClient),
+            'amendments' => new AmendmentsResource($this->httpClient),
+            'carePlans' => new CarePlansResource($this->httpClient),
+            'patientRiskAssessments' => new PatientRiskAssessmentsResource($this->httpClient),
+            'patientPhysicalExams' => new PatientPhysicalExamsResource($this->httpClient),
+            'patientInterventions' => new PatientInterventionsResource($this->httpClient),
+            'patientCommunications' => new PatientCommunicationsResource($this->httpClient),
+            'implantableDevices' => new ImplantableDevicesResource($this->httpClient),
             default => throw new \InvalidArgumentException("Unknown resource: {$name}"),
         };
 
