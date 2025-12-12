@@ -1,0 +1,1483 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-12-12T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2024.0.0",
+  "resources": [
+    {
+      "_id": "wrk_drchrono",
+      "_type": "workspace",
+      "name": "DrChrono PHP SDK - Complete API Collection",
+      "description": "Comprehensive test collection for all DrChrono API endpoints",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_drchrono_base",
+      "_type": "environment",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "https://app.drchrono.com",
+        "access_token": "YOUR_ACCESS_TOKEN_HERE",
+        "client_id": "YOUR_CLIENT_ID_HERE",
+        "client_secret": "YOUR_CLIENT_SECRET_HERE",
+        "redirect_uri": "http://localhost:8080/callback",
+        "patient_id": "",
+        "appointment_id": "",
+        "doctor_id": "",
+        "office_id": "",
+        "clinical_note_id": "",
+        "document_id": "",
+        "lab_order_id": "",
+        "task_id": ""
+      },
+      "dataPropertyOrder": null,
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1,
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "fld_auth",
+      "_type": "request_group",
+      "name": "01. Authentication",
+      "description": "OAuth2 authentication flows",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_oauth_authorize",
+      "_type": "request",
+      "name": "OAuth2 - Get Authorization Code",
+      "url": "{{ _.base_url }}/o/authorize/?response_type=code&client_id={{ _.client_id }}&redirect_uri={{ _.redirect_uri }}&scope=patients:read patients:write calendar:read calendar:write clinical:read clinical:write labs:read settings:read user:read",
+      "method": "GET",
+      "description": "Step 1: Get authorization code (open this URL in browser)",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "parentId": "fld_auth"
+    },
+    {
+      "_id": "req_oauth_token",
+      "_type": "request",
+      "name": "OAuth2 - Exchange Code for Token",
+      "url": "{{ _.base_url }}/o/token/",
+      "method": "POST",
+      "description": "Step 2: Exchange authorization code for access token",
+      "body": {
+        "mimeType": "application/x-www-form-urlencoded",
+        "params": [
+          {"name": "grant_type", "value": "authorization_code"},
+          {"name": "code", "value": "AUTHORIZATION_CODE_FROM_STEP_1"},
+          {"name": "client_id", "value": "{{ _.client_id }}"},
+          {"name": "client_secret", "value": "{{ _.client_secret }}"},
+          {"name": "redirect_uri", "value": "{{ _.redirect_uri }}"}
+        ]
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Content-Type", "value": "application/x-www-form-urlencoded"}
+      ],
+      "parentId": "fld_auth"
+    },
+    {
+      "_id": "req_oauth_refresh",
+      "_type": "request",
+      "name": "OAuth2 - Refresh Token",
+      "url": "{{ _.base_url }}/o/token/",
+      "method": "POST",
+      "description": "Refresh access token using refresh token",
+      "body": {
+        "mimeType": "application/x-www-form-urlencoded",
+        "params": [
+          {"name": "grant_type", "value": "refresh_token"},
+          {"name": "refresh_token", "value": "YOUR_REFRESH_TOKEN"},
+          {"name": "client_id", "value": "{{ _.client_id }}"},
+          {"name": "client_secret", "value": "{{ _.client_secret }}"}
+        ]
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Content-Type", "value": "application/x-www-form-urlencoded"}
+      ],
+      "parentId": "fld_auth"
+    },
+    {
+      "_id": "req_oauth_revoke",
+      "_type": "request",
+      "name": "OAuth2 - Revoke Token",
+      "url": "{{ _.base_url }}/o/revoke_token/",
+      "method": "POST",
+      "description": "Revoke an access or refresh token",
+      "body": {
+        "mimeType": "application/x-www-form-urlencoded",
+        "params": [
+          {"name": "token", "value": "{{ _.access_token }}"},
+          {"name": "client_id", "value": "{{ _.client_id }}"},
+          {"name": "client_secret", "value": "{{ _.client_secret }}"}
+        ]
+      },
+      "parameters": [],
+      "headers": [],
+      "parentId": "fld_auth"
+    },
+    {
+      "_id": "fld_users",
+      "_type": "request_group",
+      "name": "02. Users & Current User",
+      "description": "User information endpoints",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_current_user",
+      "_type": "request",
+      "name": "Get Current User",
+      "url": "{{ _.base_url }}/api/users/current",
+      "method": "GET",
+      "description": "Get authenticated user information",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_users"
+    },
+    {
+      "_id": "req_list_users",
+      "_type": "request",
+      "name": "List Users",
+      "url": "{{ _.base_url }}/api/users",
+      "method": "GET",
+      "description": "List all users in the practice",
+      "body": {},
+      "parameters": [
+        {"name": "page", "value": "1", "disabled": true},
+        {"name": "page_size", "value": "20", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_users"
+    },
+    {
+      "_id": "fld_patients",
+      "_type": "request_group",
+      "name": "03. Patient Management",
+      "description": "Patient CRUD operations and patient data",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_patients",
+      "_type": "request",
+      "name": "List Patients",
+      "url": "{{ _.base_url }}/api/patients",
+      "method": "GET",
+      "description": "List all patients with pagination",
+      "body": {},
+      "parameters": [
+        {"name": "page", "value": "1", "disabled": true},
+        {"name": "page_size", "value": "20", "disabled": true},
+        {"name": "doctor", "value": "{{ _.doctor_id }}", "disabled": true},
+        {"name": "since", "value": "2025-01-01", "disabled": true},
+        {"name": "verbose", "value": "true", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_patients"
+    },
+    {
+      "_id": "req_get_patient",
+      "_type": "request",
+      "name": "Get Patient by ID",
+      "url": "{{ _.base_url }}/api/patients/{{ _.patient_id }}",
+      "method": "GET",
+      "description": "Get single patient details",
+      "body": {},
+      "parameters": [
+        {"name": "verbose", "value": "true", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_patients"
+    },
+    {
+      "_id": "req_create_patient",
+      "_type": "request",
+      "name": "Create Patient",
+      "url": "{{ _.base_url }}/api/patients",
+      "method": "POST",
+      "description": "Create a new patient",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"gender\": \"Male\",\n  \"date_of_birth\": \"1990-01-01\",\n  \"email\": \"john.doe@example.com\",\n  \"cell_phone\": \"555-123-4567\",\n  \"address\": \"123 Main St\",\n  \"city\": \"San Francisco\",\n  \"state\": \"CA\",\n  \"zip_code\": \"94102\",\n  \"doctor\": {{ _.doctor_id }}\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_patients"
+    },
+    {
+      "_id": "req_update_patient",
+      "_type": "request",
+      "name": "Update Patient",
+      "url": "{{ _.base_url }}/api/patients/{{ _.patient_id }}",
+      "method": "PATCH",
+      "description": "Update patient information",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"cell_phone\": \"555-999-8888\",\n  \"email\": \"newemail@example.com\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_patients"
+    },
+    {
+      "_id": "req_patient_summary",
+      "_type": "request",
+      "name": "Get Patient Summary",
+      "url": "{{ _.base_url }}/api/patients/{{ _.patient_id }}/summary",
+      "method": "GET",
+      "description": "Get patient clinical summary",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_patients"
+    },
+    {
+      "_id": "req_patient_ccda",
+      "_type": "request",
+      "name": "Get Patient CCDA",
+      "url": "{{ _.base_url }}/api/patients/{{ _.patient_id }}/ccda",
+      "method": "GET",
+      "description": "Get CCDA (Continuity of Care Document)",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_patients"
+    },
+    {
+      "_id": "req_patient_onpatient",
+      "_type": "request",
+      "name": "Get OnPatient Access",
+      "url": "{{ _.base_url }}/api/patients/{{ _.patient_id }}/onpatient_access",
+      "method": "GET",
+      "description": "Get/create patient portal access token",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_patients"
+    },
+    {
+      "_id": "fld_appointments",
+      "_type": "request_group",
+      "name": "04. Appointments",
+      "description": "Appointment scheduling and management",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_appointments",
+      "_type": "request",
+      "name": "List Appointments",
+      "url": "{{ _.base_url }}/api/appointments",
+      "method": "GET",
+      "description": "List appointments with filters",
+      "body": {},
+      "parameters": [
+        {"name": "page", "value": "1", "disabled": true},
+        {"name": "page_size", "value": "20", "disabled": true},
+        {"name": "date", "value": "2025-12-12", "disabled": true},
+        {"name": "date_range", "value": "2025-12-01/2025-12-31", "disabled": true},
+        {"name": "doctor", "value": "{{ _.doctor_id }}", "disabled": true},
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true},
+        {"name": "office", "value": "{{ _.office_id }}", "disabled": true},
+        {"name": "status", "value": "", "disabled": true},
+        {"name": "verbose", "value": "true", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_appointments"
+    },
+    {
+      "_id": "req_get_appointment",
+      "_type": "request",
+      "name": "Get Appointment by ID",
+      "url": "{{ _.base_url }}/api/appointments/{{ _.appointment_id }}",
+      "method": "GET",
+      "description": "Get single appointment details",
+      "body": {},
+      "parameters": [
+        {"name": "verbose", "value": "true", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_appointments"
+    },
+    {
+      "_id": "req_create_appointment",
+      "_type": "request",
+      "name": "Create Appointment",
+      "url": "{{ _.base_url }}/api/appointments",
+      "method": "POST",
+      "description": "Create a new appointment",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"doctor\": {{ _.doctor_id }},\n  \"patient\": {{ _.patient_id }},\n  \"office\": {{ _.office_id }},\n  \"scheduled_time\": \"2025-12-15T10:00:00\",\n  \"duration\": 30,\n  \"reason\": \"Annual physical examination\",\n  \"status\": \"\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_appointments"
+    },
+    {
+      "_id": "req_update_appointment",
+      "_type": "request",
+      "name": "Update Appointment",
+      "url": "{{ _.base_url }}/api/appointments/{{ _.appointment_id }}",
+      "method": "PATCH",
+      "description": "Update appointment details",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"status\": \"Arrived\",\n  \"notes\": \"Patient checked in\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_appointments"
+    },
+    {
+      "_id": "req_delete_appointment",
+      "_type": "request",
+      "name": "Delete Appointment",
+      "url": "{{ _.base_url }}/api/appointments/{{ _.appointment_id }}",
+      "method": "DELETE",
+      "description": "Cancel/delete an appointment",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_appointments"
+    },
+    {
+      "_id": "req_list_appointment_profiles",
+      "_type": "request",
+      "name": "List Appointment Profiles",
+      "url": "{{ _.base_url }}/api/appointment_profiles",
+      "method": "GET",
+      "description": "List appointment types/durations",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_appointments"
+    },
+    {
+      "_id": "req_list_appointment_templates",
+      "_type": "request",
+      "name": "List Appointment Templates",
+      "url": "{{ _.base_url }}/api/appointment_templates",
+      "method": "GET",
+      "description": "List recurring appointment blocks",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_appointments"
+    },
+    {
+      "_id": "fld_doctors",
+      "_type": "request_group",
+      "name": "05. Doctors & Providers",
+      "description": "Doctor/provider information",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_doctors",
+      "_type": "request",
+      "name": "List Doctors",
+      "url": "{{ _.base_url }}/api/doctors",
+      "method": "GET",
+      "description": "List all doctors/providers",
+      "body": {},
+      "parameters": [
+        {"name": "page", "value": "1", "disabled": true},
+        {"name": "page_size", "value": "20", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_doctors"
+    },
+    {
+      "_id": "req_get_doctor",
+      "_type": "request",
+      "name": "Get Doctor by ID",
+      "url": "{{ _.base_url }}/api/doctors/{{ _.doctor_id }}",
+      "method": "GET",
+      "description": "Get single doctor details",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_doctors"
+    },
+    {
+      "_id": "fld_offices",
+      "_type": "request_group",
+      "name": "06. Offices & Exam Rooms",
+      "description": "Office locations and exam rooms",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_offices",
+      "_type": "request",
+      "name": "List Offices",
+      "url": "{{ _.base_url }}/api/offices",
+      "method": "GET",
+      "description": "List all office locations",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_offices"
+    },
+    {
+      "_id": "req_list_exam_rooms",
+      "_type": "request",
+      "name": "List Exam Rooms",
+      "url": "{{ _.base_url }}/api/office_exam_rooms",
+      "method": "GET",
+      "description": "List exam rooms",
+      "body": {},
+      "parameters": [
+        {"name": "office", "value": "{{ _.office_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_offices"
+    },
+    {
+      "_id": "fld_clinical",
+      "_type": "request_group",
+      "name": "07. Clinical Notes",
+      "description": "Clinical documentation and notes",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_clinical_notes",
+      "_type": "request",
+      "name": "List Clinical Notes",
+      "url": "{{ _.base_url }}/api/clinical_notes",
+      "method": "GET",
+      "description": "List clinical notes",
+      "body": {},
+      "parameters": [
+        {"name": "page", "value": "1", "disabled": true},
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true},
+        {"name": "doctor", "value": "{{ _.doctor_id }}", "disabled": true},
+        {"name": "appointment", "value": "{{ _.appointment_id }}", "disabled": true},
+        {"name": "since", "value": "2025-01-01", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_clinical"
+    },
+    {
+      "_id": "req_get_clinical_note",
+      "_type": "request",
+      "name": "Get Clinical Note",
+      "url": "{{ _.base_url }}/api/clinical_notes/{{ _.clinical_note_id }}",
+      "method": "GET",
+      "description": "Get single clinical note",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_clinical"
+    },
+    {
+      "_id": "req_create_clinical_note",
+      "_type": "request",
+      "name": "Create Clinical Note",
+      "url": "{{ _.base_url }}/api/clinical_notes",
+      "method": "POST",
+      "description": "Create a new clinical note",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"patient\": {{ _.patient_id }},\n  \"doctor\": {{ _.doctor_id }},\n  \"appointment\": {{ _.appointment_id }},\n  \"clinical_note_template\": null,\n  \"note\": \"Patient presents with...\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_clinical"
+    },
+    {
+      "_id": "req_update_clinical_note",
+      "_type": "request",
+      "name": "Update Clinical Note",
+      "url": "{{ _.base_url }}/api/clinical_notes/{{ _.clinical_note_id }}",
+      "method": "PATCH",
+      "description": "Update clinical note",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"note\": \"Updated clinical note content\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_clinical"
+    },
+    {
+      "_id": "req_list_clinical_note_templates",
+      "_type": "request",
+      "name": "List Clinical Note Templates",
+      "url": "{{ _.base_url }}/api/clinical_note_templates",
+      "method": "GET",
+      "description": "List note templates",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_clinical"
+    },
+    {
+      "_id": "fld_documents",
+      "_type": "request_group",
+      "name": "08. Documents",
+      "description": "Document management and upload",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_documents",
+      "_type": "request",
+      "name": "List Documents",
+      "url": "{{ _.base_url }}/api/documents",
+      "method": "GET",
+      "description": "List all documents",
+      "body": {},
+      "parameters": [
+        {"name": "page", "value": "1", "disabled": true},
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true},
+        {"name": "doctor", "value": "{{ _.doctor_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_documents"
+    },
+    {
+      "_id": "req_get_document",
+      "_type": "request",
+      "name": "Get Document",
+      "url": "{{ _.base_url }}/api/documents/{{ _.document_id }}",
+      "method": "GET",
+      "description": "Get single document",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_documents"
+    },
+    {
+      "_id": "req_upload_document",
+      "_type": "request",
+      "name": "Upload Document",
+      "url": "{{ _.base_url }}/api/documents",
+      "method": "POST",
+      "description": "Upload a new document (multipart/form-data)",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {"name": "patient", "value": "{{ _.patient_id }}"},
+          {"name": "doctor", "value": "{{ _.doctor_id }}"},
+          {"name": "description", "value": "Test document upload"},
+          {"name": "document", "type": "file", "fileName": ""}
+        ]
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_documents"
+    },
+    {
+      "_id": "req_update_document",
+      "_type": "request",
+      "name": "Update Document Metadata",
+      "url": "{{ _.base_url }}/api/documents/{{ _.document_id }}",
+      "method": "PATCH",
+      "description": "Update document metadata",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"description\": \"Updated document description\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_documents"
+    },
+    {
+      "_id": "req_delete_document",
+      "_type": "request",
+      "name": "Delete Document",
+      "url": "{{ _.base_url }}/api/documents/{{ _.document_id }}",
+      "method": "DELETE",
+      "description": "Delete a document",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_documents"
+    },
+    {
+      "_id": "fld_labs",
+      "_type": "request_group",
+      "name": "09. Laboratory",
+      "description": "Lab orders, results, and tests",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_lab_orders",
+      "_type": "request",
+      "name": "List Lab Orders",
+      "url": "{{ _.base_url }}/api/lab_orders",
+      "method": "GET",
+      "description": "List lab orders",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true},
+        {"name": "doctor", "value": "{{ _.doctor_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_labs"
+    },
+    {
+      "_id": "req_get_lab_order",
+      "_type": "request",
+      "name": "Get Lab Order",
+      "url": "{{ _.base_url }}/api/lab_orders/{{ _.lab_order_id }}",
+      "method": "GET",
+      "description": "Get single lab order",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_labs"
+    },
+    {
+      "_id": "req_create_lab_order",
+      "_type": "request",
+      "name": "Create Lab Order",
+      "url": "{{ _.base_url }}/api/lab_orders",
+      "method": "POST",
+      "description": "Create a new lab order",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"patient\": {{ _.patient_id }},\n  \"doctor\": {{ _.doctor_id }},\n  \"ordered_tests\": [],\n  \"notes\": \"Lab order notes\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_labs"
+    },
+    {
+      "_id": "req_list_lab_results",
+      "_type": "request",
+      "name": "List Lab Results",
+      "url": "{{ _.base_url }}/api/lab_results",
+      "method": "GET",
+      "description": "List lab results",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_labs"
+    },
+    {
+      "_id": "req_list_lab_tests",
+      "_type": "request",
+      "name": "List Lab Tests",
+      "url": "{{ _.base_url }}/api/lab_tests",
+      "method": "GET",
+      "description": "List available lab tests",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_labs"
+    },
+    {
+      "_id": "req_list_lab_documents",
+      "_type": "request",
+      "name": "List Lab Documents",
+      "url": "{{ _.base_url }}/api/lab_documents",
+      "method": "GET",
+      "description": "List lab documents",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_labs"
+    },
+    {
+      "_id": "fld_patient_data",
+      "_type": "request_group",
+      "name": "10. Patient Clinical Data",
+      "description": "Allergies, medications, problems, vitals, immunizations",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_allergies",
+      "_type": "request",
+      "name": "List Allergies",
+      "url": "{{ _.base_url }}/api/allergies",
+      "method": "GET",
+      "description": "List patient allergies",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_patient_data"
+    },
+    {
+      "_id": "req_create_allergy",
+      "_type": "request",
+      "name": "Create Allergy",
+      "url": "{{ _.base_url }}/api/allergies",
+      "method": "POST",
+      "description": "Add patient allergy",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"patient\": {{ _.patient_id }},\n  \"description\": \"Penicillin\",\n  \"reaction\": \"Rash\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_patient_data"
+    },
+    {
+      "_id": "req_list_medications",
+      "_type": "request",
+      "name": "List Medications",
+      "url": "{{ _.base_url }}/api/medications",
+      "method": "GET",
+      "description": "List patient medications",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_patient_data"
+    },
+    {
+      "_id": "req_list_problems",
+      "_type": "request",
+      "name": "List Problems",
+      "url": "{{ _.base_url }}/api/problems",
+      "method": "GET",
+      "description": "List patient problems",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_patient_data"
+    },
+    {
+      "_id": "req_create_problem",
+      "_type": "request",
+      "name": "Create Problem",
+      "url": "{{ _.base_url }}/api/problems",
+      "method": "POST",
+      "description": "Add patient problem",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"patient\": {{ _.patient_id }},\n  \"doctor\": {{ _.doctor_id }},\n  \"description\": \"Hypertension\",\n  \"icd_code\": \"I10\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_patient_data"
+    },
+    {
+      "_id": "req_list_vitals",
+      "_type": "request",
+      "name": "List Vital Signs",
+      "url": "{{ _.base_url }}/api/vitals",
+      "method": "GET",
+      "description": "List patient vital signs",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_patient_data"
+    },
+    {
+      "_id": "req_create_vitals",
+      "_type": "request",
+      "name": "Record Vital Signs",
+      "url": "{{ _.base_url }}/api/vitals",
+      "method": "POST",
+      "description": "Record patient vitals",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"patient\": {{ _.patient_id }},\n  \"appointment\": {{ _.appointment_id }},\n  \"blood_pressure_1\": 120,\n  \"blood_pressure_2\": 80,\n  \"pulse\": 72,\n  \"temperature\": 98.6,\n  \"weight\": 180,\n  \"height\": 70\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_patient_data"
+    },
+    {
+      "_id": "req_list_immunizations",
+      "_type": "request",
+      "name": "List Immunizations",
+      "url": "{{ _.base_url }}/api/immunizations",
+      "method": "GET",
+      "description": "List patient immunizations",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_patient_data"
+    },
+    {
+      "_id": "fld_prescriptions",
+      "_type": "request_group",
+      "name": "11. Prescriptions",
+      "description": "Prescription management",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_prescriptions",
+      "_type": "request",
+      "name": "List Prescriptions",
+      "url": "{{ _.base_url }}/api/prescriptions",
+      "method": "GET",
+      "description": "List prescriptions",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_prescriptions"
+    },
+    {
+      "_id": "req_create_prescription",
+      "_type": "request",
+      "name": "Create Prescription",
+      "url": "{{ _.base_url }}/api/prescriptions",
+      "method": "POST",
+      "description": "Create a new prescription",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"patient\": {{ _.patient_id }},\n  \"doctor\": {{ _.doctor_id }},\n  \"medication\": \"Lisinopril 10mg\",\n  \"dispense_quantity\": 30,\n  \"refills\": 3,\n  \"notes\": \"Take once daily\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_prescriptions"
+    },
+    {
+      "_id": "fld_insurance",
+      "_type": "request_group",
+      "name": "12. Insurance & Eligibility",
+      "description": "Insurance information and eligibility checks",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_insurances",
+      "_type": "request",
+      "name": "List Insurances",
+      "url": "{{ _.base_url }}/api/insurances",
+      "method": "GET",
+      "description": "List patient insurance plans",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_insurance"
+    },
+    {
+      "_id": "req_list_eligibility_checks",
+      "_type": "request",
+      "name": "List Eligibility Checks",
+      "url": "{{ _.base_url }}/api/eligibility_checks",
+      "method": "GET",
+      "description": "List insurance eligibility checks",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_insurance"
+    },
+    {
+      "_id": "req_create_eligibility_check",
+      "_type": "request",
+      "name": "Verify Insurance Eligibility",
+      "url": "{{ _.base_url }}/api/eligibility_checks",
+      "method": "POST",
+      "description": "Create eligibility verification request",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"patient\": {{ _.patient_id }},\n  \"doctor\": {{ _.doctor_id }},\n  \"appointment\": {{ _.appointment_id }}\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_insurance"
+    },
+    {
+      "_id": "fld_billing",
+      "_type": "request_group",
+      "name": "13. Billing & Payments",
+      "description": "Billing codes, line items, and transactions",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_line_items",
+      "_type": "request",
+      "name": "List Line Items",
+      "url": "{{ _.base_url }}/api/line_items",
+      "method": "GET",
+      "description": "List billing line items",
+      "body": {},
+      "parameters": [
+        {"name": "appointment", "value": "{{ _.appointment_id }}", "disabled": true},
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_billing"
+    },
+    {
+      "_id": "req_create_line_item",
+      "_type": "request",
+      "name": "Create Line Item",
+      "url": "{{ _.base_url }}/api/line_items",
+      "method": "POST",
+      "description": "Create billing line item",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"appointment\": {{ _.appointment_id }},\n  \"code\": \"99213\",\n  \"procedure_type\": \"CPT\",\n  \"units\": 1,\n  \"price\": 150.00\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_billing"
+    },
+    {
+      "_id": "req_list_transactions",
+      "_type": "request",
+      "name": "List Transactions",
+      "url": "{{ _.base_url }}/api/transactions",
+      "method": "GET",
+      "description": "List payment transactions",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_billing"
+    },
+    {
+      "_id": "req_create_transaction",
+      "_type": "request",
+      "name": "Create Transaction",
+      "url": "{{ _.base_url }}/api/transactions",
+      "method": "POST",
+      "description": "Create payment transaction",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"patient\": {{ _.patient_id }},\n  \"appointment\": {{ _.appointment_id }},\n  \"amount\": 50.00,\n  \"payment_method\": \"Cash\",\n  \"notes\": \"Co-pay\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_billing"
+    },
+    {
+      "_id": "req_list_billing_profiles",
+      "_type": "request",
+      "name": "List Billing Profiles",
+      "url": "{{ _.base_url }}/api/billing_profiles",
+      "method": "GET",
+      "description": "List billing configurations",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_billing"
+    },
+    {
+      "_id": "fld_tasks",
+      "_type": "request_group",
+      "name": "14. Tasks & Workflow",
+      "description": "Task management and workflow",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_tasks",
+      "_type": "request",
+      "name": "List Tasks",
+      "url": "{{ _.base_url }}/api/tasks",
+      "method": "GET",
+      "description": "List tasks",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true},
+        {"name": "doctor", "value": "{{ _.doctor_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_tasks"
+    },
+    {
+      "_id": "req_get_task",
+      "_type": "request",
+      "name": "Get Task",
+      "url": "{{ _.base_url }}/api/tasks/{{ _.task_id }}",
+      "method": "GET",
+      "description": "Get single task",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_tasks"
+    },
+    {
+      "_id": "req_create_task",
+      "_type": "request",
+      "name": "Create Task",
+      "url": "{{ _.base_url }}/api/tasks",
+      "method": "POST",
+      "description": "Create a new task",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"patient\": {{ _.patient_id }},\n  \"assigned_to\": {{ _.doctor_id }},\n  \"title\": \"Follow up with patient\",\n  \"description\": \"Call patient about lab results\",\n  \"due_date\": \"2025-12-15\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_tasks"
+    },
+    {
+      "_id": "req_update_task",
+      "_type": "request",
+      "name": "Update Task",
+      "url": "{{ _.base_url }}/api/tasks/{{ _.task_id }}",
+      "method": "PATCH",
+      "description": "Update task status/details",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"status\": \"Completed\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_tasks"
+    },
+    {
+      "_id": "req_list_task_templates",
+      "_type": "request",
+      "name": "List Task Templates",
+      "url": "{{ _.base_url }}/api/task_templates",
+      "method": "GET",
+      "description": "List task templates",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_tasks"
+    },
+    {
+      "_id": "req_list_task_categories",
+      "_type": "request",
+      "name": "List Task Categories",
+      "url": "{{ _.base_url }}/api/task_categories",
+      "method": "GET",
+      "description": "List task categories",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_tasks"
+    },
+    {
+      "_id": "fld_messaging",
+      "_type": "request",
+      "name": "15. Messaging & Communication",
+      "description": "Messages and patient communication",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_messages",
+      "_type": "request",
+      "name": "List Messages",
+      "url": "{{ _.base_url }}/api/messages",
+      "method": "GET",
+      "description": "List internal messages",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_messaging"
+    },
+    {
+      "_id": "req_send_message",
+      "_type": "request",
+      "name": "Send Message",
+      "url": "{{ _.base_url }}/api/messages",
+      "method": "POST",
+      "description": "Send internal message",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"recipient\": {{ _.doctor_id }},\n  \"subject\": \"Test message\",\n  \"body\": \"This is a test message\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_messaging"
+    },
+    {
+      "_id": "req_list_patient_messages",
+      "_type": "request",
+      "name": "List Patient Messages",
+      "url": "{{ _.base_url }}/api/patient_messages",
+      "method": "GET",
+      "description": "List patient communications",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_messaging"
+    },
+    {
+      "_id": "fld_care_plans",
+      "_type": "request_group",
+      "name": "16. Care Plans & Preventive Care",
+      "description": "Patient care plans and health management",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_care_plans",
+      "_type": "request",
+      "name": "List Care Plans",
+      "url": "{{ _.base_url }}/api/care_plans",
+      "method": "GET",
+      "description": "List patient care plans",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_care_plans"
+    },
+    {
+      "_id": "req_create_care_plan",
+      "_type": "request",
+      "name": "Create Care Plan",
+      "url": "{{ _.base_url }}/api/care_plans",
+      "method": "POST",
+      "description": "Create patient care plan",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"patient\": {{ _.patient_id }},\n  \"doctor\": {{ _.doctor_id }},\n  \"title\": \"Diabetes Management Plan\",\n  \"description\": \"Comprehensive care plan for diabetes\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"},
+        {"name": "Content-Type", "value": "application/json"}
+      ],
+      "parentId": "fld_care_plans"
+    },
+    {
+      "_id": "fld_inventory",
+      "_type": "request_group",
+      "name": "17. Inventory & Vaccines",
+      "description": "Inventory management and vaccine tracking",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_inventory_vaccines",
+      "_type": "request",
+      "name": "List Inventory Vaccines",
+      "url": "{{ _.base_url }}/api/inventory_vaccines",
+      "method": "GET",
+      "description": "List vaccine inventory",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_inventory"
+    },
+    {
+      "_id": "req_list_inventory_categories",
+      "_type": "request",
+      "name": "List Inventory Categories",
+      "url": "{{ _.base_url }}/api/inventory_categories",
+      "method": "GET",
+      "description": "List inventory categories",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_inventory"
+    },
+    {
+      "_id": "fld_custom_fields",
+      "_type": "request_group",
+      "name": "18. Custom Fields & Demographics",
+      "description": "Custom patient fields and demographics",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_custom_demographics",
+      "_type": "request",
+      "name": "List Custom Demographics",
+      "url": "{{ _.base_url }}/api/custom_demographics",
+      "method": "GET",
+      "description": "List custom patient demographic fields",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_custom_fields"
+    },
+    {
+      "_id": "req_list_patient_flag_types",
+      "_type": "request",
+      "name": "List Patient Flag Types",
+      "url": "{{ _.base_url }}/api/patient_flag_types",
+      "method": "GET",
+      "description": "List custom patient flag types",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_custom_fields"
+    },
+    {
+      "_id": "req_list_custom_appointment_fields",
+      "_type": "request",
+      "name": "List Custom Appointment Fields",
+      "url": "{{ _.base_url }}/api/custom_appointment_fields",
+      "method": "GET",
+      "description": "List custom appointment metadata fields",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_custom_fields"
+    },
+    {
+      "_id": "fld_procedures",
+      "_type": "request_group",
+      "name": "19. Procedures & Consent",
+      "description": "Medical procedures and consent forms",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_procedures",
+      "_type": "request",
+      "name": "List Procedures",
+      "url": "{{ _.base_url }}/api/procedures",
+      "method": "GET",
+      "description": "List medical procedures",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_procedures"
+    },
+    {
+      "_id": "req_list_consent_forms",
+      "_type": "request",
+      "name": "List Consent Forms",
+      "url": "{{ _.base_url }}/api/consent_forms",
+      "method": "GET",
+      "description": "List patient consent forms",
+      "body": {},
+      "parameters": [
+        {"name": "patient", "value": "{{ _.patient_id }}", "disabled": true}
+      ],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_procedures"
+    },
+    {
+      "_id": "fld_admin",
+      "_type": "request_group",
+      "name": "20. Administrative",
+      "description": "User groups, fee schedules, and reminders",
+      "environment": {},
+      "parentId": "wrk_drchrono"
+    },
+    {
+      "_id": "req_list_user_groups",
+      "_type": "request",
+      "name": "List User Groups",
+      "url": "{{ _.base_url }}/api/user_groups",
+      "method": "GET",
+      "description": "List user permission groups",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_admin"
+    },
+    {
+      "_id": "req_list_fee_schedules",
+      "_type": "request",
+      "name": "List Fee Schedules",
+      "url": "{{ _.base_url }}/api/fee_schedules",
+      "method": "GET",
+      "description": "List fee schedules",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_admin"
+    },
+    {
+      "_id": "req_list_reminder_profiles",
+      "_type": "request",
+      "name": "List Reminder Profiles",
+      "url": "{{ _.base_url }}/api/reminder_profiles",
+      "method": "GET",
+      "description": "List reminder settings",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {"name": "Authorization", "value": "Bearer {{ _.access_token }}"}
+      ],
+      "parentId": "fld_admin"
+    }
+  ]
+}

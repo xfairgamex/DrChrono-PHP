@@ -42,6 +42,29 @@ use DrChrono\Resource\CustomDemographicsResource;
 use DrChrono\Resource\PatientFlagTypesResource;
 use DrChrono\Resource\BillingProfilesResource;
 use DrChrono\Resource\EligibilityChecksResource;
+use DrChrono\Resource\FeeSchedulesResource;
+use DrChrono\Resource\TransactionsResource;
+use DrChrono\Resource\LineItemsResource;
+use DrChrono\Resource\PatientPaymentLogResource;
+use DrChrono\Resource\ConsentFormsResource;
+use DrChrono\Resource\CustomInsurancePlanNamesResource;
+use DrChrono\Resource\ClinicalNoteTemplatesResource;
+use DrChrono\Resource\ClinicalNoteFieldTypesResource;
+use DrChrono\Resource\ClinicalNoteFieldValuesResource;
+use DrChrono\Resource\ProceduresResource;
+use DrChrono\Resource\AmendmentsResource;
+use DrChrono\Resource\CarePlansResource;
+use DrChrono\Resource\PatientRiskAssessmentsResource;
+use DrChrono\Resource\PatientPhysicalExamsResource;
+use DrChrono\Resource\PatientInterventionsResource;
+use DrChrono\Resource\PatientCommunicationsResource;
+use DrChrono\Resource\ImplantableDevicesResource;
+use DrChrono\Resource\InventoryCategoriesResource;
+use DrChrono\Resource\PatientVaccineRecordsResource;
+use DrChrono\Resource\TaskTemplatesResource;
+use DrChrono\Resource\TaskCategoriesResource;
+use DrChrono\Resource\TaskStatusesResource;
+use DrChrono\Resource\TaskNotesResource;
 
 /**
  * Main DrChrono SDK client
@@ -76,6 +99,29 @@ use DrChrono\Resource\EligibilityChecksResource;
  * @property-read PatientFlagTypesResource $patientFlagTypes
  * @property-read BillingProfilesResource $billingProfiles
  * @property-read EligibilityChecksResource $eligibilityChecks
+ * @property-read FeeSchedulesResource $feeSchedules
+ * @property-read TransactionsResource $transactions
+ * @property-read LineItemsResource $lineItems
+ * @property-read PatientPaymentLogResource $patientPaymentLog
+ * @property-read ConsentFormsResource $consentForms
+ * @property-read CustomInsurancePlanNamesResource $customInsurancePlanNames
+ * @property-read ClinicalNoteTemplatesResource $clinicalNoteTemplates
+ * @property-read ClinicalNoteFieldTypesResource $clinicalNoteFieldTypes
+ * @property-read ClinicalNoteFieldValuesResource $clinicalNoteFieldValues
+ * @property-read ProceduresResource $procedures
+ * @property-read AmendmentsResource $amendments
+ * @property-read CarePlansResource $carePlans
+ * @property-read PatientRiskAssessmentsResource $patientRiskAssessments
+ * @property-read PatientPhysicalExamsResource $patientPhysicalExams
+ * @property-read PatientInterventionsResource $patientInterventions
+ * @property-read PatientCommunicationsResource $patientCommunications
+ * @property-read ImplantableDevicesResource $implantableDevices
+ * @property-read InventoryCategoriesResource $inventoryCategories
+ * @property-read PatientVaccineRecordsResource $patientVaccineRecords
+ * @property-read TaskTemplatesResource $taskTemplates
+ * @property-read TaskCategoriesResource $taskCategories
+ * @property-read TaskStatusesResource $taskStatuses
+ * @property-read TaskNotesResource $taskNotes
  */
 class DrChronoClient
 {
@@ -192,6 +238,29 @@ class DrChronoClient
             'patientFlagTypes' => new PatientFlagTypesResource($this->httpClient),
             'billingProfiles' => new BillingProfilesResource($this->httpClient),
             'eligibilityChecks' => new EligibilityChecksResource($this->httpClient),
+            'feeSchedules' => new FeeSchedulesResource($this->httpClient),
+            'transactions' => new TransactionsResource($this->httpClient),
+            'lineItems' => new LineItemsResource($this->httpClient),
+            'patientPaymentLog' => new PatientPaymentLogResource($this->httpClient),
+            'consentForms' => new ConsentFormsResource($this->httpClient),
+            'customInsurancePlanNames' => new CustomInsurancePlanNamesResource($this->httpClient),
+            'clinicalNoteTemplates' => new ClinicalNoteTemplatesResource($this->httpClient),
+            'clinicalNoteFieldTypes' => new ClinicalNoteFieldTypesResource($this->httpClient),
+            'clinicalNoteFieldValues' => new ClinicalNoteFieldValuesResource($this->httpClient),
+            'procedures' => new ProceduresResource($this->httpClient),
+            'amendments' => new AmendmentsResource($this->httpClient),
+            'carePlans' => new CarePlansResource($this->httpClient),
+            'patientRiskAssessments' => new PatientRiskAssessmentsResource($this->httpClient),
+            'patientPhysicalExams' => new PatientPhysicalExamsResource($this->httpClient),
+            'patientInterventions' => new PatientInterventionsResource($this->httpClient),
+            'patientCommunications' => new PatientCommunicationsResource($this->httpClient),
+            'implantableDevices' => new ImplantableDevicesResource($this->httpClient),
+            'inventoryCategories' => new InventoryCategoriesResource($this->httpClient),
+            'patientVaccineRecords' => new PatientVaccineRecordsResource($this->httpClient),
+            'taskTemplates' => new TaskTemplatesResource($this->httpClient),
+            'taskCategories' => new TaskCategoriesResource($this->httpClient),
+            'taskStatuses' => new TaskStatusesResource($this->httpClient),
+            'taskNotes' => new TaskNotesResource($this->httpClient),
             default => throw new \InvalidArgumentException("Unknown resource: {$name}"),
         };
 

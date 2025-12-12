@@ -105,6 +105,16 @@ $client->appointmentProfiles    // Appointment types
 $client->appointmentTemplates   // Recurring blocks
 $client->patientPayments        // Payment records
 $client->patientMessages        // Patient communications
+$client->inventoryCategories    // Inventory organization
+$client->patientVaccineRecords  // Immunization tracking
+$client->taskTemplates          // Reusable task templates
+$client->taskCategories         // Task organization
+$client->taskStatuses           // Custom task statuses
+$client->taskNotes              // Task documentation
+$client->doctors                // Provider directory
+$client->userGroups             // Permission groups
+$client->prescriptionMessages   // Pharmacy communications
+$client->commLogs               // Communication audit trail
 ```
 
 ### Verbose Mode
@@ -523,6 +533,23 @@ Runnable examples are provided in the `examples/` directory:
 | `billing` | Billing/transactions | `$client->billing->listLineItems()` |
 | `billingProfiles` | Billing configurations | `$client->billingProfiles->getByDoctor()` |
 | `eligibilityChecks` | Insurance verification | `$client->eligibilityChecks->verifyPrimaryInsurance()` |
+| `feeSchedules` | Pricing and fee schedules | `$client->feeSchedules->getByCode()` |
+| `transactions` | Payment transactions | `$client->transactions->recordPayment()` |
+| `lineItems` | Invoice line items | `$client->lineItems->addProcedure()` |
+| `patientPaymentLog` | Payment history/audit | `$client->patientPaymentLog->getPaymentHistory()` |
+| `consentForms` | Patient consent forms | `$client->consentForms->markAsSigned()` |
+| `customInsurancePlanNames` | Custom insurance naming | `$client->customInsurancePlanNames->setCustomName()` |
+| `clinicalNoteTemplates` | Note templates | `$client->clinicalNoteTemplates->createTemplate()` |
+| `clinicalNoteFieldTypes` | Custom note fields | `$client->clinicalNoteFieldTypes->createFieldType()` |
+| `clinicalNoteFieldValues` | Note field values | `$client->clinicalNoteFieldValues->upsertValue()` |
+| `procedures` | Medical procedures | `$client->procedures->createProcedure()` |
+| `amendments` | Record amendments | `$client->amendments->approve()` |
+| `carePlans` | Patient care plans | `$client->carePlans->createCarePlan()` |
+| `patientRiskAssessments` | Risk evaluations | `$client->patientRiskAssessments->createAssessment()` |
+| `patientPhysicalExams` | Physical exam records | `$client->patientPhysicalExams->createExam()` |
+| `patientInterventions` | Treatment interventions | `$client->patientInterventions->createIntervention()` |
+| `patientCommunications` | Patient communications | `$client->patientCommunications->createCommunication()` |
+| `implantableDevices` | Implanted devices | `$client->implantableDevices->createDevice()` |
 
 ## Contributing
 
