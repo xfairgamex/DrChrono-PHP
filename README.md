@@ -124,30 +124,39 @@ Some endpoints support verbose mode to include additional related data that requ
 ```php
 // Get patient with full insurance details
 $patient = $client->patients->getWithInsurance($patientId);
-echo "Insurance: {$patient['primary_insurance']['insurance_company']}\n";
+echo "Insurance: {$patient['primary_insurance']['insurance_payer_name']}\n";
+echo "Policy #: {$patient['primary_insurance']['insurance_id_number']}\n";
 
 // Get appointment with clinical data (vitals, notes, etc.)
 $appointment = $client->appointments->getWithClinicalData($appointmentId);
+echo "BP: {$appointment['vitals']['blood_pressure_1']}/{$appointment['vitals']['blood_pressure_2']}\n";
+
+// Get clinical note with full section content
+$note = $client->clinicalNotes->getWithSections($noteId);
+foreach ($note['clinical_note_sections'] as $section) {
+    echo "{$section['section_name']}: {$section['section_content']}\n";
+}
 
 // List patients with insurance details
 // Note: Page size limited to 50 (vs 250 default)
 $patients = $client->patients->listWithInsurance(['doctor' => 123456]);
 
-// Manual verbose mode
+// Manual verbose mode (low-level)
 $appointments = $client->appointments->list(['verbose' => 'true']);
 ```
 
 **Verbose mode includes:**
-- **Patients**: Full insurance objects, custom demographics, patient flags
-- **Appointments**: Clinical notes, vitals, status history, reminders
-- **Clinical Notes**: Detailed section content
+- **Patients**: Full insurance objects (primary/secondary/tertiary), custom demographics, patient flags, referring doctor
+- **Appointments**: Clinical notes, vitals, custom vitals, status transitions, reminders
+- **Clinical Notes**: Complete section content with all fields
 
 **Performance considerations:**
 - Page size reduced from 250 to 50 records
 - Response time 2-5x slower per request
+- Additional database queries per record
 - Use only when you need the extra fields
 
-See `examples/07_verbose_mode.php` for detailed examples.
+📖 **See [Verbose Mode Guide](docs/VERBOSE_MODE.md) for comprehensive documentation and examples.**
 
 ### Pagination
 

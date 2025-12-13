@@ -6,13 +6,38 @@ namespace DrChrono\Resource;
 
 /**
  * Patients resource - manage patient records
+ *
+ * This resource provides methods for managing patient demographics, searching patients,
+ * accessing patient summaries, and retrieving insurance information.
+ *
+ * @see https://app.drchrono.com/api-docs/#tag/Patients Official API documentation
  */
 class PatientsResource extends AbstractResource
 {
     protected string $resourcePath = '/api/patients';
 
     /**
-     * Search patients by name, DOB, email, etc.
+     * Search patients by various criteria
+     *
+     * @param array $criteria Search criteria (first_name, last_name, date_of_birth, email, etc.)
+     * @return PagedCollection Paginated patient results
+     *
+     * @example
+     * // Search by name
+     * $patients = $client->patients->search([
+     *     'first_name' => 'John',
+     *     'last_name' => 'Doe',
+     * ]);
+     *
+     * // Search by date of birth
+     * $patients = $client->patients->search([
+     *     'date_of_birth' => '1980-05-15',
+     * ]);
+     *
+     * // Search by email
+     * $patients = $client->patients->search([
+     *     'email' => 'john.doe@example.com',
+     * ]);
      */
     public function search(array $criteria): PagedCollection
     {
@@ -36,7 +61,34 @@ class PatientsResource extends AbstractResource
     }
 
     /**
-     * Create patient with demographics
+     * Create a new patient record
+     *
+     * @param array $demographics Patient demographic data
+     * @return array Created patient data
+     *
+     * Required fields:
+     * - first_name (string): Patient's first name
+     * - last_name (string): Patient's last name
+     * - gender (string): 'Male', 'Female', or 'Other'
+     * - date_of_birth (string): YYYY-MM-DD format
+     * - doctor (int): Primary care doctor ID
+     *
+     * @example
+     * $patient = $client->patients->createPatient([
+     *     'first_name' => 'John',
+     *     'last_name' => 'Doe',
+     *     'gender' => 'Male',
+     *     'date_of_birth' => '1980-05-15',
+     *     'doctor' => 123,
+     *     'email' => 'john.doe@example.com',
+     *     'cell_phone' => '555-0123',
+     *     'address' => '123 Main St',
+     *     'city' => 'Springfield',
+     *     'state' => 'IL',
+     *     'zip_code' => '62701',
+     * ]);
+     *
+     * echo "Created patient ID: {$patient['id']}\n";
      */
     public function createPatient(array $demographics): array
     {
@@ -68,20 +120,45 @@ class PatientsResource extends AbstractResource
     }
 
     /**
-     * Get patient with full insurance details
+     * Get patient with full insurance details (verbose mode)
      *
-     * Requires verbose mode to include:
-     * - primary_insurance (full details)
-     * - secondary_insurance (full details)
-     * - tertiary_insurance (full details)
-     * - auto_accident_insurance
-     * - workers_comp_insurance
-     * - custom_demographics
-     * - patient_flags
-     * - referring_doctor
+     * Uses verbose mode to include additional fields that require extra database queries:
+     * - primary_insurance: Complete primary insurance information
+     * - secondary_insurance: Complete secondary insurance information
+     * - tertiary_insurance: Complete tertiary insurance information
+     * - auto_accident_insurance: Auto accident insurance details
+     * - workers_comp_insurance: Workers' compensation insurance details
+     * - custom_demographics: All custom demographic fields
+     * - patient_flags: Patient flag details and metadata
+     * - patient_flags_attached: Currently attached patient flags
+     * - referring_doctor: Complete referring physician information
      *
      * @param int $patientId Patient ID
      * @return array Patient data with insurance details
+     *
+     * @example
+     * $patient = $client->patients->getWithInsurance(12345);
+     *
+     * // Access primary insurance
+     * if (isset($patient['primary_insurance'])) {
+     *     $insurance = $patient['primary_insurance'];
+     *     echo "Payer: {$insurance['insurance_payer_name']}\n";
+     *     echo "Plan: {$insurance['insurance_plan_name']}\n";
+     *     echo "Policy #: {$insurance['insurance_id_number']}\n";
+     *     echo "Group #: {$insurance['insurance_group_number']}\n";
+     * }
+     *
+     * // Check for workers' comp
+     * if (isset($patient['workers_comp_insurance'])) {
+     *     echo "Workers Comp Claim: {$patient['workers_comp_insurance']['claim_number']}\n";
+     * }
+     *
+     * // View custom demographics
+     * foreach ($patient['custom_demographics'] ?? [] as $field) {
+     *     echo "{$field['field_name']}: {$field['field_value']}\n";
+     * }
+     *
+     * @see https://github.com/drchrono/php-sdk/blob/main/docs/VERBOSE_MODE.md Verbose Mode Guide
      */
     public function getWithInsurance(int $patientId): array
     {
@@ -89,12 +166,38 @@ class PatientsResource extends AbstractResource
     }
 
     /**
-     * List patients with insurance details
+     * List patients with insurance details (verbose mode)
      *
-     * Note: Verbose mode reduces page size to 50 records
+     * Returns patients with additional insurance and demographic fields.
+     * See getWithInsurance() for the list of included verbose fields.
      *
-     * @param array $filters Optional filters
-     * @return PagedCollection
+     * Performance Note: Page size is reduced from 250 to 50 records in verbose mode.
+     * Each record requires additional database queries.
+     *
+     * @param array $filters Optional filters (doctor, since, date_of_birth, etc.)
+     * @return PagedCollection Paginated results with verbose patient data
+     *
+     * @example
+     * // Get all patients for a doctor with insurance details
+     * $patients = $client->patients->listWithInsurance(['doctor' => 123]);
+     *
+     * foreach ($patients as $patient) {
+     *     echo "{$patient['first_name']} {$patient['last_name']}\n";
+     *
+     *     // Check insurance coverage
+     *     if (isset($patient['primary_insurance'])) {
+     *         echo "  Insurance: {$patient['primary_insurance']['insurance_payer_name']}\n";
+     *     } else {
+     *         echo "  No insurance on file\n";
+     *     }
+     *
+     *     // Check for patient flags
+     *     if (!empty($patient['patient_flags_attached'])) {
+     *         echo "  Flags: " . count($patient['patient_flags_attached']) . "\n";
+     *     }
+     * }
+     *
+     * @see https://github.com/drchrono/php-sdk/blob/main/docs/VERBOSE_MODE.md Verbose Mode Guide
      */
     public function listWithInsurance(array $filters = []): PagedCollection
     {
