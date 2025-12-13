@@ -316,14 +316,14 @@ The following models could enhance type safety but are not required as resources
 - ~~All 69 API endpoints implemented~~
 - ~~All major resource categories covered~~
 - ~~28 model classes created for type safety~~
+- ~~**Verbose mode documentation** - Comprehensive guide with examples (docs/VERBOSE_MODE.md)~~
+- ~~**PHPDoc enhancements** - Added inline examples for 7 key resources~~
+- ~~**Workflow guides** - Complete guides for common healthcare workflows (docs/WORKFLOW_GUIDES.md)~~
 
 ### 🎯 Current Priorities
 
-#### Priority 1: Documentation (Immediate)
-1. **Verbose mode documentation** - Document usage for Appointments, Patients, Clinical Notes
-2. **PHPDoc enhancements** - Add inline examples for all resource methods
-3. **Usage guides** - Create guides for common workflows
-4. **API reference** - Generate complete API documentation
+#### Priority 1: Documentation (Remaining)
+1. **API reference** - Generate complete API documentation from PHPDoc
 
 #### Priority 2: Testing (High)
 5. **Increase test coverage** - Target 90%+ coverage
@@ -361,23 +361,25 @@ The following models could enhance type safety but are not required as resources
 
 ---
 
-## Documentation Gaps
+## Documentation Status
 
 ### Current Documentation
-- ✅ Good: README with quick start
-- ✅ Good: OAuth flow examples
-- ⚠️ Partial: Resource method documentation
-- ❌ Missing: Verbose mode guide
-- ❌ Missing: Complete API reference
-- ❌ Missing: Migration guide
-- ❌ Missing: Best practices guide
+- ✅ Excellent: README with quick start and verbose mode examples
+- ✅ Excellent: OAuth flow examples
+- ✅ Excellent: Verbose mode guide (docs/VERBOSE_MODE.md) - 1000+ lines with performance tips
+- ✅ Excellent: Workflow guides (docs/WORKFLOW_GUIDES.md) - 800+ lines covering 8 major workflows
+- ✅ Good: Enhanced PHPDoc for 7 key resources with detailed examples
+- ✅ Good: Best practices guide (docs/BEST_PRACTICES.md)
+- ✅ Good: Laravel integration guide (docs/LARAVEL_INTEGRATION.md)
+- ⚠️ Partial: Resource method documentation (7 of 69 resources have detailed PHPDoc)
+- ❌ Missing: Complete API reference (auto-generated from PHPDoc)
+- ❌ Missing: Migration guide for v2.0
 
-### Recommended Documentation
-1. Complete API reference (auto-generated from PHPDoc)
-2. Verbose mode usage guide
-3. Best practices for pagination, rate limiting
-4. Migration guide for v2.0
-5. Architecture decision records (ADRs)
+### Recommended Next Steps
+1. Generate complete API reference from PHPDoc
+2. Add PHPDoc examples to remaining 62 resources (lower priority)
+3. Create migration guide for v2.0
+4. Add architecture decision records (ADRs) if needed
 
 ---
 
@@ -397,11 +399,39 @@ The SDK now provides **100% endpoint coverage** of the DrChrono API v4 (11.0) wi
 - **File upload support** for documents
 - **Comprehensive error handling**
 
-### 📝 Remaining Documentation Tasks
-1. **Document verbose mode usage** for Appointments, Patients, and Clinical Notes
-2. **Add inline PHPDoc examples** for all resource methods
-3. **Create comprehensive guides** for common workflows
-4. **Add more real-world examples** to documentation
+### 📝 Documentation Progress (Updated 2025-12-13)
+
+**Completed Tasks:**
+1. ✅ **Verbose mode documentation** - Comprehensive 1000+ line guide
+   - Created docs/VERBOSE_MODE.md with detailed examples
+   - Added verbose mode methods to ClinicalNotesResource
+   - Enhanced README with verbose mode section
+   - Covers performance considerations, troubleshooting, and API reference
+
+2. ✅ **PHPDoc examples for key resources** - Enhanced 7 most-used resources
+   - AppointmentsResource: Full examples for scheduling and verbose mode
+   - PatientsResource: Insurance handling and search patterns
+   - ClinicalNotesResource: Note creation and section access
+   - DocumentsResource: File upload and download workflows
+   - TasksResource: Task creation and management
+   - PrescriptionsResource: E-prescribing workflows
+   - LabOrdersResource: Lab order and requisition handling
+
+3. ✅ **Comprehensive workflow guides** - 800+ line guide covering 8 workflows
+   - Created docs/WORKFLOW_GUIDES.md
+   - Patient Registration & Scheduling
+   - Clinical Documentation Workflow
+   - Billing & Claims Processing
+   - Laboratory Workflow (order to results)
+   - Prescription Management (e-prescribing)
+   - Task Management Workflow
+   - Document Management
+   - Patient Portal Integration
+   - Advanced patterns (reminders, quality measures)
+
+**Remaining Tasks:**
+4. **Generate API reference** - Auto-generate from PHPDoc
+5. **Add PHPDoc to remaining resources** - 62 resources need enhanced examples (lower priority)
 
 ### 🚀 Next Steps
 1. **Test coverage improvements** - Increase from current level to 90%+
