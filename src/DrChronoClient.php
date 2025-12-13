@@ -65,6 +65,10 @@ use DrChrono\Resource\TaskTemplatesResource;
 use DrChrono\Resource\TaskCategoriesResource;
 use DrChrono\Resource\TaskStatusesResource;
 use DrChrono\Resource\TaskNotesResource;
+use DrChrono\Resource\DoctorsResource;
+use DrChrono\Resource\UserGroupsResource;
+use DrChrono\Resource\PrescriptionMessagesResource;
+use DrChrono\Resource\CommLogsResource;
 
 /**
  * Main DrChrono SDK client
@@ -122,6 +126,10 @@ use DrChrono\Resource\TaskNotesResource;
  * @property-read TaskCategoriesResource $taskCategories
  * @property-read TaskStatusesResource $taskStatuses
  * @property-read TaskNotesResource $taskNotes
+ * @property-read DoctorsResource $doctors
+ * @property-read UserGroupsResource $userGroups
+ * @property-read PrescriptionMessagesResource $prescriptionMessages
+ * @property-read CommLogsResource $commLogs
  */
 class DrChronoClient
 {
@@ -261,6 +269,10 @@ class DrChronoClient
             'taskCategories' => new TaskCategoriesResource($this->httpClient),
             'taskStatuses' => new TaskStatusesResource($this->httpClient),
             'taskNotes' => new TaskNotesResource($this->httpClient),
+            'doctors' => new DoctorsResource($this->httpClient),
+            'userGroups' => new UserGroupsResource($this->httpClient),
+            'prescriptionMessages' => new PrescriptionMessagesResource($this->httpClient),
+            'commLogs' => new CommLogsResource($this->httpClient),
             default => throw new \InvalidArgumentException("Unknown resource: {$name}"),
         };
 
