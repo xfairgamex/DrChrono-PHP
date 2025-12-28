@@ -69,6 +69,7 @@ class DrChronoClient
         $this->config = $config instanceof Config ? $config : new Config($config);
         $this->httpClient = new HttpClient($this->config);
         $this->oauth = new OAuth2Handler($this->config, $this->httpClient);
+        $this->httpClient->setOAuth2Handler($this->oauth);
     }
 
     /**

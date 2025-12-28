@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DrChrono\Client;
 
+use DrChrono\Auth\OAuth2Handler;
 use DrChrono\Exception\ApiException;
 use DrChrono\Exception\AuthenticationException;
 use DrChrono\Exception\RateLimitException;
@@ -21,6 +22,7 @@ class HttpClient
     private Client $httpClient;
     private Config $config;
     private int $requestCount = 0;
+    private ?OAuth2Handler $oauthHandler = null;
 
     public function __construct(Config $config)
     {
@@ -101,6 +103,10 @@ class HttpClient
 
     private function request(string $method, string $path, array $options = [], int $retryCount = 0): array
     {
+        if ($this->oauthHandler) {
+            $this->oauthHandler->ensureValidToken();
+        }
+
         $options['headers'] = array_merge(
             $options['headers'] ?? [],
             $this->getAuthHeaders()
@@ -244,5 +250,10 @@ class HttpClient
     public function getConfig(): Config
     {
         return $this->config;
+    }
+
+    public function setOAuth2Handler(OAuth2Handler $oauthHandler): void
+    {
+        $this->oauthHandler = $oauthHandler;
     }
 }
