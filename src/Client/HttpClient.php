@@ -401,6 +401,12 @@ class HttpClient
         if ($reset !== null) {
             $resetInt = (int)$reset;
             if ($resetInt > 0) {
+                // Some APIs return reset as a unix timestamp in seconds, others as seconds-until-reset,
+                // and some return unix time in milliseconds. Normalize to unix timestamp in seconds.
+                if ($resetInt > 1000000000000) {
+                    $resetInt = (int)floor($resetInt / 1000);
+                }
+
                 $this->rateLimitResetAt = $resetInt < 1000000000 ? time() + $resetInt : $resetInt;
             }
         }
