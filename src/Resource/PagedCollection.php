@@ -17,13 +17,13 @@ use Traversable;
  */
 class PagedCollection implements IteratorAggregate, Countable
 {
-    private array $items;
+    private mixed $items;
     private ?string $nextUrl;
     private ?string $previousUrl;
     private int $totalCount;
 
     public function __construct(
-        array $items = [],
+        mixed $items = [],
         ?string $nextUrl = null,
         ?string $previousUrl = null,
         int $totalCount = 0
@@ -34,17 +34,23 @@ class PagedCollection implements IteratorAggregate, Countable
         $this->totalCount = $totalCount ?: count($items);
     }
 
-    public static function fromApiResponse(array $response): self
+    public static function fromApiResponse(array $response, bool $useLaravelCollections = false): self
     {
+        $items = $response['results'] ?? [];
+
+        if ($useLaravelCollections && class_exists(\Illuminate\Support\Collection::class)) {
+            $items = new \Illuminate\Support\Collection($items);
+        }
+
         return new self(
-            $response['results'] ?? [],
+            $items,
             $response['next'] ?? null,
             $response['previous'] ?? null,
             $response['count'] ?? count($response['results'] ?? [])
         );
     }
 
-    public function getItems(): array
+    public function getItems(): mixed
     {
         return $this->items;
     }
@@ -81,21 +87,46 @@ class PagedCollection implements IteratorAggregate, Countable
 
     public function getIterator(): Traversable
     {
+        if ($this->items instanceof Traversable) {
+            return $this->items;
+        }
+
         return new ArrayIterator($this->items);
     }
 
     public function isEmpty(): bool
     {
+        if (class_exists(\Illuminate\Support\Collection::class) && $this->items instanceof \Illuminate\Support\Collection) {
+            return $this->items->isEmpty();
+        }
+
         return empty($this->items);
     }
 
     public function first()
     {
+        if (class_exists(\Illuminate\Support\Collection::class) && $this->items instanceof \Illuminate\Support\Collection) {
+            return $this->items->first();
+        }
+
         return $this->items[0] ?? null;
     }
 
     public function last()
     {
+        if (class_exists(\Illuminate\Support\Collection::class) && $this->items instanceof \Illuminate\Support\Collection) {
+            return $this->items->last();
+        }
+
         return $this->items[count($this->items) - 1] ?? null;
+    }
+
+    public function filterItems(callable $callback): mixed
+    {
+        if (class_exists(\Illuminate\Support\Collection::class) && $this->items instanceof \Illuminate\Support\Collection) {
+            return $this->items->filter($callback)->values();
+        }
+
+        return array_values(array_filter($this->items, $callback));
     }
 }

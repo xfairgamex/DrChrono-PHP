@@ -99,6 +99,10 @@ class UserGroupsResource extends AbstractResource
         $collection = $this->list(['name' => $name]);
         $items = $collection->getItems();
 
+        if ($items instanceof \Illuminate\Support\Collection) {
+            return $items->first();
+        }
+
         return !empty($items) ? $items[0] : null;
     }
 
@@ -106,23 +110,17 @@ class UserGroupsResource extends AbstractResource
      * Search user groups by name (partial match)
      *
      * @param string $searchTerm Search term
-     * @return array List of matching user groups
+     * @return array|\Illuminate\Support\Collection List of matching user groups
      */
-    public function search(string $searchTerm): array
+    public function search(string $searchTerm)
     {
         $searchTerm = strtolower($searchTerm);
-        $groups = [];
         $collection = $this->list();
 
-        foreach ($collection as $group) {
+        return $collection->filterItems(function (array $group) use ($searchTerm): bool {
             $name = strtolower($group['name'] ?? '');
-
-            if (str_contains($name, $searchTerm)) {
-                $groups[] = $group;
-            }
-        }
-
-        return $groups;
+            return str_contains($name, $searchTerm);
+        });
     }
 
     /**

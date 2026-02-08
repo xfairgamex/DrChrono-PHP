@@ -44,5 +44,12 @@
     "config": {
         "sort-packages": true,
         "optimize-autoloader": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DrChrono\\Laravel\\DrChronoServiceProvider"
+            ]
+        }
     }
 }

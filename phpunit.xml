@@ -16,12 +16,6 @@
             <directory>src</directory>
         </include>
     </source>
-    <coverage>
-        <report>
-            <html outputDirectory="coverage"/>
-            <text outputFile="php://stdout" showUncoveredFiles="true"/>
-        </report>
-    </coverage>
     <php>
         <env name="DRCHRONO_BASE_URI" value="https://app.drchrono.com"/>
     </php>

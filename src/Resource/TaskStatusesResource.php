@@ -99,6 +99,10 @@ class TaskStatusesResource extends AbstractResource
     {
         $statuses = $this->list(['name' => $name]);
         $items = $statuses->getItems();
+        if ($items instanceof \Illuminate\Support\Collection) {
+            return $items->first();
+        }
+
         return !empty($items) ? $items[0] : null;
     }
 
@@ -131,6 +135,10 @@ class TaskStatusesResource extends AbstractResource
     {
         $statuses = $this->list(['is_default' => 'true']);
         $items = $statuses->getItems();
+        if ($items instanceof \Illuminate\Support\Collection) {
+            return $items->first();
+        }
+
         return !empty($items) ? $items[0] : null;
     }
 

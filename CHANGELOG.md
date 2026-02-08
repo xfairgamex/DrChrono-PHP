@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] - 2026-02-08
+
+### Added
+
+- **Laravel auto-discovery integration**
+  - `DrChrono\\Laravel\\DrChronoServiceProvider`
+  - Publishable config: `config/drchrono.php`
+- **HTTP client enhancements**
+  - Optional Laravel HTTP client support (`http_client=laravel`), including support for `pool()`
+  - Automatic OAuth token refresh before requests (configurable via `auto_refresh_token`)
+  - Rate limit state tracking + optional throttling (configurable via `rate_limit_throttle_enabled`)
+- **Optional Laravel collections for list endpoints**
+  - `use_laravel_collections` can return paged results as `Illuminate\\Support\\Collection`
+- **Clinical notes verbose convenience**
+  - `ClinicalNotesResource::getWithSections()` and `ClinicalNotesResource::listWithSections()`
+- **Resource registrations**
+  - `DrChronoClient` now exposes `doctors`, `userGroups`, `prescriptionMessages`, and `commLogs`
+
+### Fixed
+
+- Guard optional Illuminate Collection usage so non-Laravel consumers do not require Laravel classes.
+
+### Documentation
+
+- Added `docs/VERBOSE_MODE.md` and `docs/WORKFLOW_GUIDES.md`
+- Expanded PHPDoc examples for common workflow resources (Documents, Lab Orders, Prescriptions, Tasks, Appointments, Patients, Clinical Notes)
+
 ## [1.7.0] - 2025-11-23
 
 ### Added - Production-Ready Documentation & Examples
