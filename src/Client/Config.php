@@ -23,6 +23,12 @@ class Config
     private int $maxRetries = 3;
     private int $retryDelay = 1000; // milliseconds
     private ?string $apiVersion = null;
+    private string $httpClientType = 'guzzle';
+    private bool $useLaravelCollections = false;
+    private bool $autoRefreshToken = true;
+    private bool $rateLimitThrottleEnabled = true;
+    private array $laravelMiddleware = [];
+    private mixed $laravelPendingRequest = null;
 
     public function __construct(array $config = [])
     {
@@ -196,6 +202,77 @@ class Config
         return $this;
     }
 
+    public function getHttpClientType(): string
+    {
+        return $this->httpClientType;
+    }
+
+    public function setHttpClientType(string $httpClientType): self
+    {
+        $this->httpClientType = $httpClientType;
+        return $this;
+    }
+
+    public function setHttpClient(string $httpClientType): self
+    {
+        return $this->setHttpClientType($httpClientType);
+    }
+
+    public function useLaravelCollections(): bool
+    {
+        return $this->useLaravelCollections;
+    }
+
+    public function setUseLaravelCollections(bool $useLaravelCollections): self
+    {
+        $this->useLaravelCollections = $useLaravelCollections;
+        return $this;
+    }
+
+    public function shouldAutoRefreshToken(): bool
+    {
+        return $this->autoRefreshToken;
+    }
+
+    public function setAutoRefreshToken(bool $autoRefreshToken): self
+    {
+        $this->autoRefreshToken = $autoRefreshToken;
+        return $this;
+    }
+
+    public function isRateLimitThrottleEnabled(): bool
+    {
+        return $this->rateLimitThrottleEnabled;
+    }
+
+    public function setRateLimitThrottleEnabled(bool $rateLimitThrottleEnabled): self
+    {
+        $this->rateLimitThrottleEnabled = $rateLimitThrottleEnabled;
+        return $this;
+    }
+
+    public function getLaravelMiddleware(): array
+    {
+        return $this->laravelMiddleware;
+    }
+
+    public function setLaravelMiddleware(array $laravelMiddleware): self
+    {
+        $this->laravelMiddleware = $laravelMiddleware;
+        return $this;
+    }
+
+    public function getLaravelPendingRequest(): mixed
+    {
+        return $this->laravelPendingRequest;
+    }
+
+    public function setLaravelPendingRequest(mixed $laravelPendingRequest): self
+    {
+        $this->laravelPendingRequest = $laravelPendingRequest;
+        return $this;
+    }
+
     public function hasCredentials(): bool
     {
         return $this->clientId !== null && $this->clientSecret !== null;
@@ -222,6 +299,11 @@ class Config
             'max_retries' => $this->maxRetries,
             'retry_delay' => $this->retryDelay,
             'api_version' => $this->apiVersion,
+            'http_client' => $this->httpClientType,
+            'use_laravel_collections' => $this->useLaravelCollections,
+            'auto_refresh_token' => $this->autoRefreshToken,
+            'rate_limit_throttle_enabled' => $this->rateLimitThrottleEnabled,
+            'laravel_middleware' => $this->laravelMiddleware,
         ];
     }
 }

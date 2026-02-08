@@ -40,6 +40,10 @@ class BillingProfilesResource extends AbstractResource
     {
         $profiles = $this->list(['doctor' => $doctorId]);
         $items = $profiles->getItems();
+        if ($items instanceof \Illuminate\Support\Collection) {
+            return $items->first();
+        }
+
         return !empty($items) ? $items[0] : null;
     }
 

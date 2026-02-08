@@ -53,20 +53,15 @@ class DoctorsResource extends AbstractResource
      *
      * Filters the list to return only doctors whose accounts are not suspended.
      *
-     * @return array List of active doctors
+     * @return array|\Illuminate\Support\Collection List of active doctors
      */
-    public function listActive(): array
+    public function listActive()
     {
-        $doctors = [];
         $collection = $this->list();
 
-        foreach ($collection as $doctor) {
-            if (!($doctor['is_account_suspended'] ?? false)) {
-                $doctors[] = $doctor;
-            }
-        }
-
-        return $doctors;
+        return $collection->filterItems(function (array $doctor): bool {
+            return !($doctor['is_account_suspended'] ?? false);
+        });
     }
 
     /**
@@ -74,20 +69,15 @@ class DoctorsResource extends AbstractResource
      *
      * Filters the list to return only doctors whose accounts are suspended.
      *
-     * @return array List of suspended doctors
+     * @return array|\Illuminate\Support\Collection List of suspended doctors
      */
-    public function listSuspended(): array
+    public function listSuspended()
     {
-        $doctors = [];
         $collection = $this->list();
 
-        foreach ($collection as $doctor) {
-            if ($doctor['is_account_suspended'] ?? false) {
-                $doctors[] = $doctor;
-            }
-        }
-
-        return $doctors;
+        return $collection->filterItems(function (array $doctor): bool {
+            return (bool)($doctor['is_account_suspended'] ?? false);
+        });
     }
 
     /**
@@ -96,20 +86,15 @@ class DoctorsResource extends AbstractResource
      * Filters doctors by their specialty (e.g., "Cardiology", "Pediatrics").
      *
      * @param string $specialty Specialty to filter by
-     * @return array List of doctors matching the specialty
+     * @return array|\Illuminate\Support\Collection List of doctors matching the specialty
      */
-    public function listBySpecialty(string $specialty): array
+    public function listBySpecialty(string $specialty)
     {
-        $doctors = [];
         $collection = $this->list();
 
-        foreach ($collection as $doctor) {
-            if (($doctor['specialty'] ?? '') === $specialty) {
-                $doctors[] = $doctor;
-            }
-        }
-
-        return $doctors;
+        return $collection->filterItems(function (array $doctor) use ($specialty): bool {
+            return ($doctor['specialty'] ?? '') === $specialty;
+        });
     }
 
     /**
@@ -119,29 +104,22 @@ class DoctorsResource extends AbstractResource
      * Case-insensitive partial matching.
      *
      * @param string $searchTerm Search term (name)
-     * @return array List of matching doctors
+     * @return array|\Illuminate\Support\Collection List of matching doctors
      */
-    public function search(string $searchTerm): array
+    public function search(string $searchTerm)
     {
         $searchTerm = strtolower($searchTerm);
-        $doctors = [];
         $collection = $this->list();
 
-        foreach ($collection as $doctor) {
+        return $collection->filterItems(function (array $doctor) use ($searchTerm): bool {
             $firstName = strtolower($doctor['first_name'] ?? '');
             $lastName = strtolower($doctor['last_name'] ?? '');
             $fullName = $firstName . ' ' . $lastName;
 
-            if (
-                str_contains($firstName, $searchTerm) ||
-                str_contains($lastName, $searchTerm) ||
-                str_contains($fullName, $searchTerm)
-            ) {
-                $doctors[] = $doctor;
-            }
-        }
-
-        return $doctors;
+            return str_contains($firstName, $searchTerm)
+                || str_contains($lastName, $searchTerm)
+                || str_contains($fullName, $searchTerm);
+        });
     }
 
     /**
@@ -150,20 +128,15 @@ class DoctorsResource extends AbstractResource
      * Filters doctors by practice group ID.
      *
      * @param int $practiceGroupId Practice group ID
-     * @return array List of doctors in the practice group
+     * @return array|\Illuminate\Support\Collection List of doctors in the practice group
      */
-    public function listByPracticeGroup(int $practiceGroupId): array
+    public function listByPracticeGroup(int $practiceGroupId)
     {
-        $doctors = [];
         $collection = $this->list();
 
-        foreach ($collection as $doctor) {
-            if (($doctor['practice_group'] ?? null) === $practiceGroupId) {
-                $doctors[] = $doctor;
-            }
-        }
-
-        return $doctors;
+        return $collection->filterItems(function (array $doctor) use ($practiceGroupId): bool {
+            return ($doctor['practice_group'] ?? null) === $practiceGroupId;
+        });
     }
 
     /**
