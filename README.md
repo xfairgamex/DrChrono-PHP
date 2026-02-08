@@ -77,6 +77,28 @@ $client->getConfig()->setAccessToken($tokens['access_token']);
 $patients = $client->patients->list();
 ```
 
+### Laravel Integration
+
+The package ships with a Laravel service provider and config file for auto-registration.
+After installing, publish the config if you want to customize defaults:
+
+```bash
+php artisan vendor:publish --tag=drchrono-config
+```
+
+Laravel users can opt into the HTTP client integration (supports `Http::fake()` and pools) and
+Collections from list endpoints:
+
+```php
+use DrChrono\DrChronoClient;
+use Illuminate\Support\Facades\Http;
+
+Http::fake();
+
+$client = app(DrChronoClient::class);
+$patients = $client->patients->list();
+```
+
 ## Core Concepts
 
 ### Resources

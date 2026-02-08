@@ -92,6 +92,10 @@ class InventoryCategoriesResource extends AbstractResource
     {
         $categories = $this->list(['name' => $name]);
         $items = $categories->getItems();
+        if ($items instanceof \Illuminate\Support\Collection) {
+            return $items->first();
+        }
+
         return !empty($items) ? $items[0] : null;
     }
 

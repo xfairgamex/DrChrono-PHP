@@ -215,20 +215,15 @@ class CommLogsResource extends AbstractResource
      * Returns all inbound communications (patient-to-practice).
      *
      * @param array $filters Additional filters
-     * @return array Inbound communication logs
+     * @return array|\Illuminate\Support\Collection Inbound communication logs
      */
-    public function listInbound(array $filters = []): array
+    public function listInbound(array $filters = [])
     {
-        $logs = [];
         $collection = $this->list($filters);
 
-        foreach ($collection as $log) {
-            if (($log['direction'] ?? '') === 'inbound') {
-                $logs[] = $log;
-            }
-        }
-
-        return $logs;
+        return $collection->filterItems(function (array $log): bool {
+            return ($log['direction'] ?? '') === 'inbound';
+        });
     }
 
     /**
@@ -237,20 +232,15 @@ class CommLogsResource extends AbstractResource
      * Returns all outbound communications (practice-to-patient).
      *
      * @param array $filters Additional filters
-     * @return array Outbound communication logs
+     * @return array|\Illuminate\Support\Collection Outbound communication logs
      */
-    public function listOutbound(array $filters = []): array
+    public function listOutbound(array $filters = [])
     {
-        $logs = [];
         $collection = $this->list($filters);
 
-        foreach ($collection as $log) {
-            if (($log['direction'] ?? '') === 'outbound') {
-                $logs[] = $log;
-            }
-        }
-
-        return $logs;
+        return $collection->filterItems(function (array $log): bool {
+            return ($log['direction'] ?? '') === 'outbound';
+        });
     }
 
     /**

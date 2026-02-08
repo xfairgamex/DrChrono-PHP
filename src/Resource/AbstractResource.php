@@ -26,7 +26,10 @@ abstract class AbstractResource
     public function list(array $filters = []): PagedCollection
     {
         $response = $this->httpClient->get($this->resourcePath, $filters);
-        return PagedCollection::fromApiResponse($response);
+        return PagedCollection::fromApiResponse(
+            $response,
+            $this->httpClient->getConfig()->useLaravelCollections()
+        );
     }
 
     /**
