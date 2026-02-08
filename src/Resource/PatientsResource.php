@@ -158,7 +158,7 @@ class PatientsResource extends AbstractResource
      *     echo "{$field['field_name']}: {$field['field_value']}\n";
      * }
      *
-     * @see https://github.com/drchrono/php-sdk/blob/main/docs/VERBOSE_MODE.md Verbose Mode Guide
+     * @see docs/VERBOSE_MODE.md Verbose Mode Guide
      */
     public function getWithInsurance(int $patientId): array
     {
@@ -197,7 +197,7 @@ class PatientsResource extends AbstractResource
      *     }
      * }
      *
-     * @see https://github.com/drchrono/php-sdk/blob/main/docs/VERBOSE_MODE.md Verbose Mode Guide
+     * @see docs/VERBOSE_MODE.md Verbose Mode Guide
      */
     public function listWithInsurance(array $filters = []): PagedCollection
     {

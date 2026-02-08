@@ -158,7 +158,7 @@ class ClinicalNotesResource extends AbstractResource
      *     }
      * }
      *
-     * @see https://github.com/drchrono/php-sdk/blob/main/docs/VERBOSE_MODE.md Verbose Mode Guide
+     * @see docs/VERBOSE_MODE.md Verbose Mode Guide
      */
     public function getWithSections(int $noteId): array
     {
@@ -200,7 +200,7 @@ class ClinicalNotesResource extends AbstractResource
      *     }
      * }
      *
-     * @see https://github.com/drchrono/php-sdk/blob/main/docs/VERBOSE_MODE.md Verbose Mode Guide
+     * @see docs/VERBOSE_MODE.md Verbose Mode Guide
      */
     public function listWithSections(array $filters = []): PagedCollection
     {

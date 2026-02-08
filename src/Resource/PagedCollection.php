@@ -96,7 +96,7 @@ class PagedCollection implements IteratorAggregate, Countable
 
     public function isEmpty(): bool
     {
-        if ($this->items instanceof \Illuminate\Support\Collection) {
+        if (class_exists(\Illuminate\Support\Collection::class) && $this->items instanceof \Illuminate\Support\Collection) {
             return $this->items->isEmpty();
         }
 
@@ -105,7 +105,7 @@ class PagedCollection implements IteratorAggregate, Countable
 
     public function first()
     {
-        if ($this->items instanceof \Illuminate\Support\Collection) {
+        if (class_exists(\Illuminate\Support\Collection::class) && $this->items instanceof \Illuminate\Support\Collection) {
             return $this->items->first();
         }
 
@@ -114,7 +114,7 @@ class PagedCollection implements IteratorAggregate, Countable
 
     public function last()
     {
-        if ($this->items instanceof \Illuminate\Support\Collection) {
+        if (class_exists(\Illuminate\Support\Collection::class) && $this->items instanceof \Illuminate\Support\Collection) {
             return $this->items->last();
         }
 
@@ -123,7 +123,7 @@ class PagedCollection implements IteratorAggregate, Countable
 
     public function filterItems(callable $callback): mixed
     {
-        if ($this->items instanceof \Illuminate\Support\Collection) {
+        if (class_exists(\Illuminate\Support\Collection::class) && $this->items instanceof \Illuminate\Support\Collection) {
             return $this->items->filter($callback)->values();
         }
 

@@ -192,7 +192,7 @@ class AppointmentsResource extends AbstractResource
      *     echo "Status: {$transition['status']} at {$transition['created_at']}\n";
      * }
      *
-     * @see https://github.com/drchrono/php-sdk/blob/main/docs/VERBOSE_MODE.md Verbose Mode Guide
+     * @see docs/VERBOSE_MODE.md Verbose Mode Guide
      */
     public function getWithClinicalData(int $appointmentId): array
     {
@@ -230,7 +230,7 @@ class AppointmentsResource extends AbstractResource
      *     }
      * }
      *
-     * @see https://github.com/drchrono/php-sdk/blob/main/docs/VERBOSE_MODE.md Verbose Mode Guide
+     * @see docs/VERBOSE_MODE.md Verbose Mode Guide
      */
     public function listWithClinicalData(array $filters = []): PagedCollection
     {
