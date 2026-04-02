@@ -15,6 +15,8 @@ namespace DrChrono\Resource;
  */
 class LineItemsResource extends AbstractResource
 {
+    use BulkListTrait;
+
     protected string $resourcePath = '/api/line_items';
 
     /**

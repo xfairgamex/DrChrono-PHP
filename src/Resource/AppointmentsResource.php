@@ -14,6 +14,8 @@ namespace DrChrono\Resource;
  */
 class AppointmentsResource extends AbstractResource
 {
+    use BulkListTrait;
+
     protected string $resourcePath = '/api/appointments';
 
     /**

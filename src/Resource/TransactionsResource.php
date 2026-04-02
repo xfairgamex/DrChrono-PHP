@@ -15,6 +15,8 @@ namespace DrChrono\Resource;
  */
 class TransactionsResource extends AbstractResource
 {
+    use BulkListTrait;
+
     protected string $resourcePath = '/api/transactions';
 
     /**

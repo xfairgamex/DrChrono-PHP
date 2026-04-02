@@ -62,6 +62,14 @@ class HttpClient
         ]);
     }
 
+    public function postWithQuery(string $path, array $query = [], array $headers = []): array
+    {
+        return $this->request('POST', $path, [
+            'query' => $query,
+            'headers' => $headers,
+        ]);
+    }
+
     public function put(string $path, array $data = [], array $headers = []): array
     {
         return $this->request('PUT', $path, [

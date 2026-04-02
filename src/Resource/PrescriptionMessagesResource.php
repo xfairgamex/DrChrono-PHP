@@ -23,6 +23,8 @@ namespace DrChrono\Resource;
  */
 class PrescriptionMessagesResource extends AbstractResource
 {
+    use BulkListTrait;
+
     protected string $resourcePath = '/api/prescription_messages';
 
     /**

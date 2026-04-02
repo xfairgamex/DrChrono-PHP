@@ -242,7 +242,7 @@
 | File Upload | ✅ Full | DocumentsResource::upload() |
 | Error Handling | ✅ Full | Granular exception hierarchy |
 | Verbose Mode | ⚠️ Partial | Technically works, not documented |
-| Bulk Operations | ❌ Missing | No bulk endpoint support |
+| Bulk Operations | ✅ Full | BulkListTrait on 8 resources (appointments, patients, lineItems, transactions, prescriptionMessages, eligibilityChecks, clinicalNotes, clinicalNoteFieldValues) |
 | Batch Requests | ❌ Missing | No batch API support |
 
 ---
