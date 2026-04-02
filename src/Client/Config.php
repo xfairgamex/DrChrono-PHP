@@ -29,6 +29,8 @@ class Config
     private bool $rateLimitThrottleEnabled = true;
     private array $laravelMiddleware = [];
     private mixed $laravelPendingRequest = null;
+    private int $bulkPollInterval = 5; // seconds between polling attempts
+    private int $bulkPollMaxAttempts = 60; // max polling attempts (5 min at 5s interval)
 
     public function __construct(array $config = [])
     {
@@ -273,6 +275,28 @@ class Config
         return $this;
     }
 
+    public function getBulkPollInterval(): int
+    {
+        return $this->bulkPollInterval;
+    }
+
+    public function setBulkPollInterval(int $bulkPollInterval): self
+    {
+        $this->bulkPollInterval = $bulkPollInterval;
+        return $this;
+    }
+
+    public function getBulkPollMaxAttempts(): int
+    {
+        return $this->bulkPollMaxAttempts;
+    }
+
+    public function setBulkPollMaxAttempts(int $bulkPollMaxAttempts): self
+    {
+        $this->bulkPollMaxAttempts = $bulkPollMaxAttempts;
+        return $this;
+    }
+
     public function hasCredentials(): bool
     {
         return $this->clientId !== null && $this->clientSecret !== null;
@@ -304,6 +328,8 @@ class Config
             'auto_refresh_token' => $this->autoRefreshToken,
             'rate_limit_throttle_enabled' => $this->rateLimitThrottleEnabled,
             'laravel_middleware' => $this->laravelMiddleware,
+            'bulk_poll_interval' => $this->bulkPollInterval,
+            'bulk_poll_max_attempts' => $this->bulkPollMaxAttempts,
         ];
     }
 }

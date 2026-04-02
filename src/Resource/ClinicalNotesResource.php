@@ -14,6 +14,8 @@ namespace DrChrono\Resource;
  */
 class ClinicalNotesResource extends AbstractResource
 {
+    use BulkListTrait;
+
     protected string $resourcePath = '/api/clinical_notes';
 
     /**

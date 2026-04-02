@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] - 2026-04-02
+
+### Added
+
+- **Bulk API endpoint support** for high-volume data retrieval
+  - New async POST-then-poll pattern supporting page sizes up to 1000 (vs 250 standard)
+  - `BulkOperation` class encapsulating the full submit → poll → retrieve lifecycle
+  - `BulkListTrait` providing `bulkList()`, `bulkIterateAll()`, and `bulkAll()` methods
+  - `BulkOperationCollection` wrapper for bulk pagination responses
+  - `BulkTimeoutException` with UUID preservation for manual polling recovery
+  - `HttpClient::postWithQuery()` for POST requests with query parameters (no body)
+  - Configurable polling via `bulk_poll_interval` and `bulk_poll_max_attempts` in Config
+- **8 resources now support bulk operations:**
+  - `AppointmentsResource`
+  - `PatientsResource`
+  - `LineItemsResource`
+  - `TransactionsResource`
+  - `PrescriptionMessagesResource`
+  - `EligibilityChecksResource`
+  - `ClinicalNotesResource`
+  - `ClinicalNoteFieldValuesResource`
+
+### Documentation
+
+- Added `examples/11_bulk_list.php` with usage patterns for all bulk operations
+- Updated API Coverage Audit to reflect bulk endpoint support
+
 ## [1.8.0] - 2026-02-08
 
 ### Added

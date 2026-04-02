@@ -15,6 +15,8 @@ namespace DrChrono\Resource;
  */
 class EligibilityChecksResource extends AbstractResource
 {
+    use BulkListTrait;
+
     protected string $resourcePath = '/api/eligibility_checks';
 
     /**
